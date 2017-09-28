@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Try and Click me</title>
+        <link rel='stylesheet' type='text/css' href='click.css'/>
+           
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="canvases">
+                <canvas id="canvas" width="800" height="800"></canvas>
+                <canvas id="canvas2" width="800" height="800"></canvas>
+                <canvas id="canvas3" width="800" height="800"></canvas>
+                <canvas id="canvas4" width="800" height="800"></canvas>
+            </div>
+            <div class ="inputs">
+                <form id="Qform">
+                    How much fun are you having?
+                    <br>
+                    <span>0</span>
+                    <input type="range" min="0" max="7" value="3" step="1" onchange="updateSlider(this.value, &quot;slider_fun_value&quot;)" id = "slider_fun">
+                    <span>7</span>
+                    <br><span id="slider_fun_value">3</span>
+                    <br>
+                    <br> How engaged are you?
+                    <br>
+                    <span>0</span>
+                    <input type="range" min="0" max="7" value="3" step="1" onchange="updateSlider(this.value, &quot;slider_eng_value&quot;)" id = "slider_eng">
+                    <span>7</span>
+                    <br><span id="slider_eng_value">3</span>
+                    <br>
+                    <br> How difficult was it?
+                    <br>
+                    <span>0</span>
+                    <input type="range" min="0" max="7" value="3" step="1" onchange="updateSlider(this.value, &quot;slider_diff_value&quot;)" id = "slider_diff">
+                    <span>7</span>
+                    <br><span id="slider_diff_value">3</span>
+                    <br>
+                </form>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type='text/javascript' src='clickFunctions.js'></script>
+        <script type='text/javascript' src='click.js'></script>
+    </body>
+</html>

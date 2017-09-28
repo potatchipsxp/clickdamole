@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Read Before You Proceed</title>
+        Hello!
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type='text/javascript' src='index.js'></script>
+        </head>
+    <body>
+        <p>
+            The upcoming task is for a cognitive science experiment. In the task, a page with rectangles will be displayed. A circle will also appear in one of the rectangles. Try to click the circle as quickly as you can. The circle will disappear every .7 seconds or as soon as it is clicked. The circle will then appear in a new rectangle. Once you have clicked the circle 5 times you will be advance a level. When you advance a level, first you be asked some simple questions about your experience of the previous level, and then you will be taken back to the screen with the rectangles only now there will be one more rectangle. The circle tries to not appear where it has appeared recently. It's "memory span" for where it has appeared recently will grow proportionately with the difficulty level/number of rectangles on screen. Please read the informed consent section passage below this paragraph, and then, if you consent to participate in this experiment, click begin.
+        </p>
+        <br>
+        <form id="prelim">
+            Mechanical Turk ID:<br>
+            <input type="text" name="id"><br>
+            <input type="radio" name="input_device" value="mouse" checked> mouse<br>
+            <input type="radio" name="input_device" value="trackpad">trackpad<br>
+            <input type="radio" name="input_device" value="other">other
+            <input type="submit" value="Submit" onclick="saveform(this.form)">
+        </form>
+        <br>
+        <a href="./click.html">begin</a>?<br />
+    </body>
+</html>

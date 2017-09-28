@@ -1,0 +1,35 @@
+.wrapper {
+    	position: relative;
+    	width: 800px;
+    	height: 800px;
+}
+
+.canvases {
+    	position: relative;
+    	width: 800px;
+    	height: 800px;
+	z-index: 1;
+}
+
+.canvases canvas{
+	position: absolute;
+	top: 0px;
+	left 0px;
+}
+
+.inputs {
+	position: absolute;
+	left: 300px;
+	top: 300px;
+	z-index: 2;
+}
+
+.inputs input{
+	top: 300px;
+	left: 300px;
+}
+
+.images {
+	position: absolute;
+	z-index: 3;
+}
