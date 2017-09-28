@@ -124,6 +124,8 @@ var introduction = function() {
 };
 
 var checkfun = function() {
+	$("body").css("background-image", "none");
+
     console.log("checkfun");
     Qform.style.display='initial';
     stage = "checkingfun";
@@ -136,15 +138,18 @@ var play = function(h, lvl) {
 	console.log("in play");
 
 	var grass = new Image();
-	grass.src = 'images/grassbackground.jpg';
-	console.log(grass.src);
-
+	
     grass.onload=function(){
-    	document.body.style.background = grass;
+    	document.body.background = grass;
     	console.log("set the back ground");
     }
     //grass.src = 'images/grassbackground.jpg';
     //document.body.style.background = 'images/grassbackground.jpg';
+    grass.src = 'images/grassbackground.jpg';
+	console.log(grass.src);
+
+	$("body").css("background-image", "url(images/grassbackground.jpg)");
+
 	
     Qform.style.display='none';
     drawrectangles(lvl);
@@ -152,6 +157,7 @@ var play = function(h, lvl) {
 };
 
 var thatsgame = function() {
+	$("body").removeAttr('style');
     console.log("thats game");
     context3.strokeText("game ova!", 400, 400);
     saveToFile(mousecordsX);
