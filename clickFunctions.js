@@ -132,8 +132,20 @@ var checkfun = function() {
 };
 
 var play = function(h, lvl) {
-    document.body.style.background = 'images/grassbackground.jpg';
-	console.log("set the back ground");
+
+	console.log("in play");
+
+	var grass = new Image();
+	grass.src = 'images/grassbackground.jpg';
+	console.log(grass.src);
+
+    grass.onload=function(){
+    	document.body.style.background = grass;
+    	console.log("set the back ground");
+    }
+    //grass.src = 'images/grassbackground.jpg';
+    //document.body.style.background = 'images/grassbackground.jpg';
+	
     Qform.style.display='none';
     drawrectangles(lvl);
     placeCircle();
@@ -159,7 +171,12 @@ var drawrectangles = function(lvl) {
         y = Math.round(y) + 400;
         h++;
         label = h.toString();
-        drawRect(x, y, "Box" + label);
+        //drawRect(x, y, "Box" + label);
+        var rect = new Rect(x, y, length, width);
+    	rects.push(rect);
+    	drawMoleHill(x, y);
+
+    	//draw(x, y, "Box" + label);
     }
     circleIndices = range(rects.length);
 };
@@ -185,10 +202,14 @@ var Rect = function(x, y, length, width) {
 };
 
 var drawRect = function(x, y, filltext) {
-    //draw(x, y, filltext);
-    drawMoleHill(x, y);
+    
+	drawMoleHill(500, 500);
+
+    draw(x, y, filltext);
+    
     var rect = new Rect(x, y, length, width);
     rects.push(rect);
+
 };
 
 canvas4.addEventListener('click', function(e) {
@@ -213,7 +234,7 @@ canvas4.addEventListener('click', function(e) {
             	clearTimeout(circletimer);
             	myStopFunction();
             	drawMole(circle.x, circle.y, true);
-            
+
             	startCircleTimer(700);
             }
         }
@@ -312,20 +333,28 @@ NEW FUNCTIONS MADE FOR WHACKAMOLE
 
 
 var drawMole = function(x, y, dead) {
+
+	console.log("drawing a mole");
+
     var img = new Image();
     if(dead==true){
         img.src = 'images/mole-dead.png';
     } else{
         img.src = 'images/mole.png';    
     }
-    //var imageObj = document.getElementById('livemole1');
+
     context2.clearRect(0, 0, canvas2.width, canvas2.height);
     context2.drawImage(img, x - 50, y - 50);
 };
 
 var drawMoleHill = function(x, y) {
 
+	console.log("drawing a molehill");
+
     var hole = new Image();
+    hole.onload=function(){
+    	context.drawImage(hole, x - 35, y + 50);
+    }
     hole.src = 'images/mole_hole1.png';
     console.log(hole.src);
     context.drawImage(hole, x, y);
