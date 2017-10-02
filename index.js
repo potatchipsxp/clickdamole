@@ -3,10 +3,12 @@ function saveform(form) {
     for (i = 0; i < form.length; i++) {
       	dataString += form.elements[i].value + " " + form.elements[i].checked + ", ";
     }
+    var fname = form.id.value;
     console.log(dataString);
+    dataString = JSON.stringify(dataString);
     $.ajax({
         url: 'savedemographicQs.php',
-        data: dataString,
+        data: { 'dataString': dataString, 'fname': fname },
         type: 'POST'
     });
 }
