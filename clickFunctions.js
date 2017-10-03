@@ -84,10 +84,10 @@ var placeCircle = function() {
     if (usedIndices.length > n_back) {
         usedIndices.shift();
     }
-    console.log("boutta draw a circle");
+    //console.log("boutta draw a circle");
     //drawCircle(rects[index].left + 50, rects[index].top + 50, false);
     drawMole(rects[index].left + 50, rects[index].top + 50);
-    console.log("circle timer is " + circletimer);
+    // console.log("circle timer is " + circletimer);
 
 	startCircleTimer(700);	
 }
@@ -246,6 +246,7 @@ canvas4.addEventListener('click', function(e) {
         }
 
     } else if (stage == "checkingfun") {
+        console.log(clickedX + "," + clickedY);
         if (clickedX < 400 && clickedX >= 300 && clickedY >= 600 && clickedY <= 700) {
         	saveform(Qform);
             context3.clearRect(0, 0, canvas3.width, canvas3.height);
@@ -340,7 +341,7 @@ NEW FUNCTIONS MADE FOR WHACKAMOLE
 
 var drawMole = function(x, y, dead) {
 
-	console.log("drawing a mole");
+	// console.log("drawing a mole");
 
     var img = new Image();
     if(dead==true){
@@ -359,11 +360,10 @@ var drawMoleHill = function(x, y) {
 
     var hole = new Image();
     hole.onload=function(){
-    	context.drawImage(hole, x - 35, y + 50);
+     	context.drawImage(hole, x - 35, y + 50);
     }
     hole.src = 'images/mole_hole1.png';
-    console.log(hole.src);
-    context.drawImage(hole, x, y);
+    
     console.log("drew mole hill");
 
 };
