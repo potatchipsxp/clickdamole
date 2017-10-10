@@ -8,7 +8,6 @@ increasing the number of boxes and corresponfing length of used circles increase
 */
 
 
-
 var canvas = document.getElementById('canvas');
 var canvas2 = document.getElementById('canvas2');
 var canvas3 = document.getElementById('canvas3');
@@ -39,8 +38,8 @@ context3.fillStyle = fontcolor;
 context3.textAlign = textalign;
 context3.font = fonttype;
 
-var rects = [];
-var circleIndices = [];
+var stimLocations = [];
+var stimIndices = [];
 var usedIndices = [];
 var n_back = 2;
 
@@ -52,18 +51,19 @@ var strokestyle = "#003300";
 var fontcolor = "white";
 var textalign = "center";
 var fonttype = "bold 32px Arial";
-var circle;
+var stim;
 var difficultylevel = 3;
 var consent = false;
 var h = 1;
-var clickedCircles = 1;
+var clickedStims = 1;
 var stage;
 var playing = true;
 var mousecordsX = [];
 var mousecordsY = [];
 var leveltheyreon = [];
 var fname = "mydata.txt"
-var circletimer;
+var stimtimer;
+var version;
 var neednewtimer = true;
 var timetimerstarted;
 var livemole = new Image();
@@ -72,56 +72,60 @@ var deadmole = new Image();
 deadmole.src = 'images/mole-dead.png';
 
 
-function startCircleTimer(x) {
+function startStimTimer(x) {
     console.log("starting a new timer");
     var timetimerstarted = Date.now();
-    if(circletimer){
+    if(stimtimer){
         myStopFunction();    
     }
-    circletimer = setTimeout(placeCircle, x);
+    stimtimer = setTimeout(placeStim, x);
 }
 
 function delaytimer(timersize){
     console.log("indelaytimer");
-    if(circletimer){
+    if(stimtimer){
         myStopFunction();
     }
     // x = (timetimerstarted + timersize) - Date.now();
-    startCircleTimer(500);
+    startStimTimer(500);
 }
 
-function Nback_placeCircle() {
+function Nback_placeStim() {
 
     n_back = difficultylevel - 2;
-    var usedIndicesRemoved = circleIndices.filter(function(remove) {
+    var usedIndicesRemoved = stimIndices.filter(function(remove) {
         return usedIndices.indexOf(remove) < 0;
     });
     var index = usedIndicesRemoved[getRandomInt(0, usedIndicesRemoved.length)];
     usedIndices.push(index);
-    circle = new Circle(rects[index].left + 50, rects[index].top + 50, 50);
+    stim = new Stim(stimLocations[index].left + 50, stimLocations[index].top + 50, 50);
     if (usedIndices.length > n_back) {
         usedIndices.shift();
     }
     //console.log("boutta draw a circle");
     //drawCircle(rects[index].left + 50, rects[index].top + 50, false);
-    drawMole(rects[index].left + 50, rects[index].top + 50);
+    drawMole(stimLocations[index].left + 50, stimLocations[index].top + 50);
     // console.log("circle timer is " + circletimer);
 }
 
-function Rand_placeCircle(){
-    var i = getRandomInt(0,rects.length);
-    circle = new Circle(rects[i].left + 50, rects[i].top + 50, 50);
-    drawMole(rects[i].left + 50, rects[i].top + 50);
+function Rand_placeStim(){
+    var i = getRandomInt(0,stimLocations.length);
+    stim = new Stim(stimLocations[i].left + 50, stimLocations[i].top + 50, 50);
+
+    if(version == "whackamole"){
+        drawMole(stimLocations[i].left + 50, stimLocations[i].top + 50);   
+    } else if(version == "boring"){
+        drawCircle(stimLocations[i].left + 50, stimLocations[i].top + 50);
+    }
+    
+
 }
 
-var placeCircle = function() {
+var placeStim = function() {
     console.log("in place circle");
-
-//	myStopFunction();
-		
-    Rand_placeCircle();
+    Rand_placeStim();
     console.log("placing new mole, new timer");
-	startCircleTimer(2000);	
+	startStimTimer(2000);	
 }
 
 var drawCircle = function(x, y, fill, color) {
@@ -143,9 +147,9 @@ var drawCircle = function(x, y, fill, color) {
 
 function myStopFunction() {
     console.log("called my stop function");
-    clearTimeout(circletimer);
+    clearTimeout(stimtimer);
     circletimer = null;
-    console.log("circletimeris " + circletimer);
+    console.log("stimtimeris " + stimtimer);
 }
 
 
@@ -159,37 +163,35 @@ var introduction = function() {
 };
 
 var checkfun = function() {
+
 	$("body").css("background-image", "none");
 
     console.log("checkfun");
     Qform.style.display='initial';
     stage = "checkingfun";
-    //context3.strokeText("click the square to continue", 400, 600);
-    //context3.strokeRect(300, 550, 100, 100);
 };
 
 var play = function(h, lvl) {
 
 	console.log("in play");
+    if(version == "whackamole"){
+        var grass = new Image();
+    
+        grass.onload=function(){
+            document.body.background = grass;
+            console.log("set the back ground");
+        }
 
-	var grass = new Image();
-	
-    grass.onload=function(){
-    	document.body.background = grass;
-    	console.log("set the back ground");
+        grass.src = 'images/grassbackground.jpg';
+
+        $("body").css("background-image", "url(images/grassbackground.jpg)");
+
     }
-    //grass.src = 'images/grassbackground.jpg';
-    //document.body.style.background = 'images/grassbackground.jpg';
-    grass.src = 'images/grassbackground.jpg';
-	console.log(grass.src);
-
-	$("body").css("background-image", "url(images/grassbackground.jpg)");
-
 	
     Qform.style.display='none';
-    drawrectangles(lvl);
+    available_stimLocations(lvl);
     console.log("executing play, aking first circle new timer");
-    placeCircle();
+    placeStim();
 };
 
 var thatsgame = function() {
@@ -200,7 +202,7 @@ var thatsgame = function() {
     console.log("game ovah");
 };
 
-var drawrectangles = function(lvl) {
+var available_stimLocations = function(lvl) {
     for (j = 0; j < lvl; j++) {
         //i = j * 700;
         angle = 15 * j;
@@ -214,45 +216,41 @@ var drawrectangles = function(lvl) {
         h++;
         label = h.toString();
         //drawRect(x, y, "Box" + label);
-        var rect = new Rect(x, y, length, width);
-    	rects.push(rect);
-    	drawMoleHill(x, y);
+        var stimLocation = new StimLocation(x, y, length, width);
+        stimLocations.push(stimLocation);
+
+        if(version == "whackamole"){
+            drawMoleHill(x, y);   
+        } else if(version == "boring"){
+            drawRect(x, y, label);
+        }
+    	
 
     	//draw(x, y, "Box" + label);
     }
-    circleIndices = range(rects.length);
+    stimIndices = range(stimLocations.length);
 };
 
-var Circle = function(x, y, r) {
+var Stim = function(x, y, r) {
     this.x = x;
     this.y = y;
     this.r = r;
 };
 
-var draw = function(x, y, filltext) {
+var drawRect = function(x, y, filltext) {
 
     context.strokeRect(x, y, 100, 100);
     context.fillText(filltext, x, y);
 
 };
 
-var Rect = function(x, y, length, width) {
+var StimLocation = function(x, y, length, width) {
     this.left = x;
     this.top = y;
     this.right = x + width;
     this.bottom = y + length;
 };
 
-var drawRect = function(x, y, filltext) {
-    
-	drawMoleHill(500, 500);
-
-    draw(x, y, filltext);
-    
-    var rect = new Rect(x, y, length, width);
-    rects.push(rect);
-
-};
 
 canvas4.addEventListener('click', function(e) {
     var clickedX = e.pageX - this.offsetLeft;
@@ -266,24 +264,30 @@ canvas4.addEventListener('click', function(e) {
             play(h, difficultylevel);
         }
     } else if (stage == "playing") {
-        if ((Math.abs(clickedX - circle.x) < circle.r) && (Math.abs(clickedY - circle.y) < circle.r)) {
+        if ((Math.abs(clickedX - stim.x) < stim.r) && (Math.abs(clickedY - stim.y) < stim.r)) {
             context2.clearRect(0, 0, canvas2.width, canvas2.height);
-            if (clickedCircles == 5) {
-            	clickedCircles++;
+            if (clickedStims == 5) {
+            	clickedStims++;
                 advanceLevel();
             } else {
-            	clickedCircles++;
+            	clickedStims++;
                 console.log("clickedmole, new timer");
             	//clearTimeout(circletimer);
             	//myStopFunction();
-            	drawMole(circle.x, circle.y, true);
+            	//drawMole(stim.x, stim.y, true);
+
+                if(version == "whackamole"){
+                    drawMole(stim.x, stim.y, true); 
+                } else if(version == "boring"){
+                    drawCircle(stim.x, stim.y, true, "green");
+                }
 
             	// startCircleTimer(700);
                 delaytimer(700);
             }
         }
         else {
-            console.log(circletimer.value);
+            console.log(stimtimer.value);
             console.log(clickedX);
         }
 
@@ -306,9 +310,9 @@ function advanceLevel() {
     saveToFile(mousecordsX);
     context2.clearRect(0, 0, canvas3.width, canvas3.height);
     context.clearRect(0, 0, canvas3.width, canvas3.height);
-    clickedCircles = 1;
-    circleIndices = range(rects.length);
-    rects = [];
+    clickedStims = 1;
+    stimIndices = range(stimLocations.length);
+    stimLocations = [];
     h = 1;
     ++difficultylevel;
     if(difficultylevel > 7) {
