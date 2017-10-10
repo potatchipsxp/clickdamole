@@ -65,15 +65,33 @@ var leveltheyreon = [];
 var fname = "mydata.txt"
 var circletimer;
 var neednewtimer = true;
+var timetimerstarted;
+var livemole = new Image();
+livemole.src = 'images/mole.png'; 
+var deadmole = new Image();
+deadmole.src = 'images/mole-dead.png';
+
 
 function startCircleTimer(x) {
+    console.log("starting a new timer");
+    var timetimerstarted = Date.now();
+    if(circletimer){
+        myStopFunction();    
+    }
     circletimer = setTimeout(placeCircle, x);
 }
 
-var placeCircle = function() {
+function delaytimer(timersize){
+    console.log("indelaytimer");
+    if(circletimer){
+        myStopFunction();
+    }
+    // x = (timetimerstarted + timersize) - Date.now();
+    startCircleTimer(500);
+}
 
-	myStopFunction();
-		
+function Nback_placeCircle() {
+
     n_back = difficultylevel - 2;
     var usedIndicesRemoved = circleIndices.filter(function(remove) {
         return usedIndices.indexOf(remove) < 0;
@@ -88,8 +106,22 @@ var placeCircle = function() {
     //drawCircle(rects[index].left + 50, rects[index].top + 50, false);
     drawMole(rects[index].left + 50, rects[index].top + 50);
     // console.log("circle timer is " + circletimer);
+}
 
-	startCircleTimer(700);	
+function Rand_placeCircle(){
+    var i = getRandomInt(0,rects.length);
+    circle = new Circle(rects[i].left + 50, rects[i].top + 50, 50);
+    drawMole(rects[i].left + 50, rects[i].top + 50);
+}
+
+var placeCircle = function() {
+    console.log("in place circle");
+
+//	myStopFunction();
+		
+    Rand_placeCircle();
+    console.log("placing new mole, new timer");
+	startCircleTimer(2000);	
 }
 
 var drawCircle = function(x, y, fill, color) {
@@ -110,7 +142,10 @@ var drawCircle = function(x, y, fill, color) {
 
 
 function myStopFunction() {
+    console.log("called my stop function");
     clearTimeout(circletimer);
+    circletimer = null;
+    console.log("circletimeris " + circletimer);
 }
 
 
@@ -129,8 +164,8 @@ var checkfun = function() {
     console.log("checkfun");
     Qform.style.display='initial';
     stage = "checkingfun";
-    context3.strokeText("click the square to continue", 400, 600);
-    context3.strokeRect(300, 550, 100, 100);
+    //context3.strokeText("click the square to continue", 400, 600);
+    //context3.strokeRect(300, 550, 100, 100);
 };
 
 var play = function(h, lvl) {
@@ -153,6 +188,7 @@ var play = function(h, lvl) {
 	
     Qform.style.display='none';
     drawrectangles(lvl);
+    console.log("executing play, aking first circle new timer");
     placeCircle();
 };
 
@@ -237,15 +273,22 @@ canvas4.addEventListener('click', function(e) {
                 advanceLevel();
             } else {
             	clickedCircles++;
-            	clearTimeout(circletimer);
-            	myStopFunction();
+                console.log("clickedmole, new timer");
+            	//clearTimeout(circletimer);
+            	//myStopFunction();
             	drawMole(circle.x, circle.y, true);
 
-            	startCircleTimer(700);
+            	// startCircleTimer(700);
+                delaytimer(700);
             }
         }
+        else {
+            console.log(circletimer.value);
+            console.log(clickedX);
+        }
 
-    } else if (stage == "checkingfun") {
+    } /*
+    else if (stage == "checkingfun") {
         console.log(clickedX + "," + clickedY);
         if (clickedX < 400 && clickedX >= 300 && clickedY >= 600 && clickedY <= 700) {
         	saveform(Qform);
@@ -255,6 +298,7 @@ canvas4.addEventListener('click', function(e) {
             play(h, difficultylevel);
         }
     }
+    */
 });
 
 function advanceLevel() {
@@ -273,6 +317,14 @@ function advanceLevel() {
         checkfun();
     }
     
+}
+
+function backtoGame(form){
+    saveform(form);
+    context3.clearRect(0, 0, canvas3.width, canvas3.height);
+    context2.clearRect(0, 0, canvas2.width, canvas2.height);
+    stage = "playing";
+    play(h, difficultylevel);
 }
 
 function getRandomInt(min, max) {
@@ -310,17 +362,18 @@ function saveToFile(data) {
     });
 }
 
-function saveform(form) {
-    var dataString;
-    for (i = 0; i < form.length; i++) {
-      	dataString += form.elements[i].value + ", ";
+function saveform() {
+    var checkfunData;
+    for (i = 0; i < Qform.length; i++) {
+      	checkfunData += Qform.elements[i].value + ", ";
     }
-    console.log(dataString);
+    console.log(checkfunData);
     $.ajax({
-        url: 'savedemographicQs.php',
-        data: dataString,
+        url: 'savecheckfun.php',
+        data: checkfunData,
         type: 'POST'
     });
+    return false;
 }
 
 function updateSlider(value, slider) {
@@ -343,15 +396,13 @@ var drawMole = function(x, y, dead) {
 
 	// console.log("drawing a mole");
 
-    var img = new Image();
     if(dead==true){
-        img.src = 'images/mole-dead.png';
+        context2.clearRect(0, 0, canvas2.width, canvas2.height);
+        context2.drawImage(deadmole, x - 50, y - 50);
     } else{
-        img.src = 'images/mole.png';    
+        context2.clearRect(0, 0, canvas2.width, canvas2.height);
+        context2.drawImage(livemole, x - 50, y - 50);   
     }
-
-    context2.clearRect(0, 0, canvas2.width, canvas2.height);
-    context2.drawImage(img, x - 50, y - 50);
 };
 
 var drawMoleHill = function(x, y) {

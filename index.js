@@ -4,8 +4,6 @@ function saveform(form) {
       	dataString += form.elements[i].value + " " + form.elements[i].checked + ", ";
     }
     var fname = form.id.value;
-    localStorage.setItem('fname', fname);
-    console.log(dataString);
     dataString = JSON.stringify(dataString);
     $.ajax({
         url: 'savedemographicQs.php',
