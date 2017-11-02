@@ -2,22 +2,68 @@
 <html>
     <head>
         <title>Read Before You Proceed</title>
-        Hello!
+        Informed Consent
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type='text/javascript' src='index.js'></script>
         </head>
     <body>
         <p>
-            The upcoming task is for a cognitive science experiment. In the task, a page with rectangles will be displayed. A circle will also appear in one of the rectangles. Try to click the circle as quickly as you can. The circle will disappear every .7 seconds or as soon as it is clicked. The circle will then appear in a new rectangle. Once you have clicked the circle 5 times you will be advance a level. When you advance a level, first you be asked some simple questions about your experience of the previous level, and then you will be taken back to the screen with the rectangles only now there will be one more rectangle. The circle tries to not appear where it has appeared recently. It's "memory span" for where it has appeared recently will grow proportionately with the difficulty level/number of rectangles on screen. Please read the informed consent section passage below this paragraph, and then, if you consent to participate in this experiment, click begin.
+            You are invited to participate in a study designed to investigate gamification. This study is being conducted by Timothy Meyer, a graduate student in the Cognitive and Information Sciences Department at University of California, Merced and Dr. Jeff Yoshimi, Professor of Cognitive Science, University of California, Merced. 
         </p>
         <br>
+        <p>
+        	PURPOSE: This study investigates user engagement in gamification.
+        </p>
+        <br>
+        <p>
+        	DESCRIPTION: In this study you will be performing a cognitive task requiring you to click stimuli as quickly and accurately as possible.  
+        </p>
+        <br>
+        <p>
+            PARTICIPATION: Your participation in this study is entirely voluntary. You are free to withdraw your participation at any time during the study, or refuse to answer any specific question, without penalty or withdrawal of benefit to which you are otherwise entitled.
+        </p>
+        <br>
+        <p>
+        	CONFIDENTIALITY OF DATA: As no identifying information will be collected, your name cannot be connected with your responses and hence your data will remain completely anonymous.
+        </p>
+        <br>
+        <p>
+        	DURATION: This experiment will take less than 15 minutes to complete.  
+        </p>
+        <br>
+        <p>
+        	RISKS AND BENEFITS: This study involves no foreseeable risks beyond those routinely encountered in daily life, nor any direct benefits to you as an individual other than the payment provided for completing the experiment. 
+        </p>
+        <br>
+        <p>
+        	CONTACT: If you have questions at any time about the study, you may contact Timothy Meyer at tmeyer3@ucmerced.edu If you feel you have not been treated according to the descriptions in this form, or your rights as a participant in research have been violated during the course of this project, you may contact the Human Subjects office at University of California Merced.  
+        </p>
+        <br>
+        <p>
+            RESULTS: Results from this study will be available from Timothy Meyer at tmeyer3@ucmerced.edu after June 30, 2018.
+        </p>
+        <br>
+        <p>
+        	IRB APPROVED: This study has been approved by the Institutional Review Board of University California Merced. The University requires that you give your consent before participating in this study.
+        </p>
+        <br>
+        <p>
+        	Please fill out the questions at the bottom and place a check or an X in the space provided below to acknowledge that you are at least 18 years old and have read and understand the statements above. By marking the space below you give consent to participate voluntarily in this study. Thank you very much.
+        </p>
+        <br>
+
+
         <form id="prelim" method="post" action="./click.html">
             Mechanical Turk ID:<br>
             <input type="text" name="id"><br>
             <input type="radio" name="input_device" value="mouse" checked> mouse<br>
             <input type="radio" name="input_device" value="trackpad">trackpad<br>
             <input type="radio" name="input_device" value="other">other<br>
-            <input type="submit" value="Submit" onclick="saveform(this.form)">
+            <br>
+            <input type="radio" name="consent" value="consented">
+            <label>Participant's consent</label>
+            <br>
+            <button onclick="saveform(this.form)">Submit</button>
         </form>
         <br>
     </body>

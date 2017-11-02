@@ -167,6 +167,7 @@ var checkfun = function() {
 	$("body").css("background-image", "none");
 
     console.log("checkfun");
+    Qform.reset();
     Qform.style.display='initial';
     stage = "checkingfun";
 };
@@ -240,7 +241,7 @@ var Stim = function(x, y, r) {
 var drawRect = function(x, y, filltext) {
 
     context.strokeRect(x, y, 100, 100);
-    context.fillText(filltext, x, y);
+    //context.fillText(filltext, x, y);
 
 };
 
@@ -329,6 +330,8 @@ function backtoGame(form){
     context2.clearRect(0, 0, canvas2.width, canvas2.height);
     stage = "playing";
     play(h, difficultylevel);
+
+    return false;
 }
 
 function getRandomInt(min, max) {
@@ -368,10 +371,12 @@ function saveToFile(data) {
 
 function saveform() {
     var checkfunData;
-    for (i = 0; i < Qform.length; i++) {
-      	checkfunData += Qform.elements[i].value + ", ";
+    for (i = 0; i < Qform.length; i++){
+        if(Qform.elements[i].checked == true){
+            checkfunData += Qform.elements[i].name + "=" + Qform.elements[i].value + ", ";
+        }
     }
-    console.log(checkfunData);
+    console.log("checkfundata is " + checkfunData);
     $.ajax({
         url: 'savecheckfun.php',
         data: checkfunData,
