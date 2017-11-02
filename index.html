@@ -53,7 +53,7 @@
         <br>
 
 
-        <form id="prelim" method="post" action="./click.html">
+        <form id="prelim" method="post">
             Mechanical Turk ID:<br>
             <input type="text" name="id"><br>
             <input type="radio" name="input_device" value="mouse" checked> mouse<br>
@@ -63,7 +63,7 @@
             <input type="radio" name="consent" value="consent">
             <label>Participant's consent</label>
             <br>
-            <input type="submit" value="Submit" onclick="saveform(this.form)">
+            <button onclick="return saveform(this.form)">Submit</button>
         </form>
         <br>
     </body>

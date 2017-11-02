@@ -13,6 +13,9 @@ var canvas2 = document.getElementById('canvas2');
 var canvas3 = document.getElementById('canvas3');
 var canvas4 = document.getElementById('canvas4');
 var Qform = document.getElementById('Qform');
+var boring_instructions_text = document.getElementById('boring_instructions');
+var gameover_text = document.getElementById('gameover');
+var whackamole_inst = document.getElementById('whackainst');
 
 var context = canvas.getContext('2d');
 context.fillStyle = fillcolor;
@@ -156,10 +159,16 @@ function myStopFunction() {
 var introduction = function() {
     console.log("intro");
     Qform.style.display='none';
+    gameover_text.style.display='none';
+    if(version=="boring"){
+        whackamole_inst.style.display='none';
+    } else if (version == "whackamole") {
+        boring_instructions_text.style.display='none';
+    }
     context3.font = "30px Arial";
-    context3.strokeText("click the rectangle to begin", 400, 400);
-    context3.strokeRect(300, 600, 100, 100);
-    context3.fillText("continue", 300, 600)
+    //context3.strokeText("click the rectangle to begin", 400, 400);
+    context3.strokeRect(300, 400, 100, 100);
+    context3.fillText("continue", 300, 400)
 };
 
 var checkfun = function() {
@@ -173,6 +182,9 @@ var checkfun = function() {
 };
 
 var play = function(h, lvl) {
+
+    boring_instructions_text.style.display='none';
+    whackamole_inst.style.display='none';
 
 	console.log("in play");
     if(version == "whackamole"){
@@ -198,7 +210,8 @@ var play = function(h, lvl) {
 var thatsgame = function() {
 	$("body").removeAttr('style');
     console.log("thats game");
-    context3.strokeText("game ova!", 400, 400);
+    //context3.strokeText("game ova!", 400, 400);
+    gameover_text.style.display='initial';
     saveToFile(mousecordsX);
     console.log("game ovah");
 };
@@ -258,7 +271,7 @@ canvas4.addEventListener('click', function(e) {
     var clickedY = e.pageY - this.offsetTop;
 
     if (stage == "intro") {
-        if (clickedX < 400 && clickedX >= 300 && clickedY >= 600 && clickedY <= 700) {
+        if (clickedX < 400 && clickedX >= 300 && clickedY >= 400 && clickedY <= 500) {
             context3.clearRect(0, 0, canvas3.width, canvas3.height);
             consent = true;
             stage = "playing";
@@ -377,9 +390,10 @@ function saveform() {
         }
     }
     console.log("checkfundata is " + checkfunData);
+    json_checkfunData = JSON.stringify(checkfunData);
     $.ajax({
         url: 'savecheckfun.php',
-        data: checkfunData,
+        data: {'checkFunData': json_checkfunData, 'fname': fname },
         type: 'POST'
     });
     return false;

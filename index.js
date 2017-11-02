@@ -1,7 +1,9 @@
 function saveform(form) {
-    if (form.consent.checked != true) {
+    if (form.consent.checked == false) {
+        console.log("didnt consent");
         location.reload(true);    
     } else {
+        console.log("consented");
         var dataString;
         for (i = 0; i < form.length; i++) {
           	dataString += form.elements[i].value + " " + form.elements[i].checked + ", ";
@@ -14,6 +16,7 @@ function saveform(form) {
             type: 'POST'
         });
         window.location.href = "./click.html";
+        return false;
     }
 }
 
