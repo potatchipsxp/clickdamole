@@ -1,5 +1,5 @@
 // Start stage 1 and call intro
 stage = "intro"; 
-version = "boring"; // boring or whackamole
+version = "whackamole"; // boring or whackamole
 introduction();
 
