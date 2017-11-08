@@ -280,7 +280,7 @@ canvas4.addEventListener('click', function(e) {
     } else if (stage == "playing") {
         if ((Math.abs(clickedX - stim.x) < stim.r) && (Math.abs(clickedY - stim.y) < stim.r)) {
             context2.clearRect(0, 0, canvas2.width, canvas2.height);
-            if (clickedStims == 5) {
+            if (clickedStims == 20) {
             	clickedStims++;
                 advanceLevel();
             } else {
