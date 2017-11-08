@@ -167,8 +167,8 @@ var introduction = function() {
     }
     context3.font = "30px Arial";
     //context3.strokeText("click the rectangle to begin", 400, 400);
-    context3.strokeRect(300, 400, 100, 100);
-    context3.fillText("continue", 300, 400)
+    context3.strokeRect(300, 600, 100, 100);
+    context3.fillText("continue", 300, 600)
 };
 
 var checkfun = function() {
@@ -271,7 +271,7 @@ canvas4.addEventListener('click', function(e) {
     var clickedY = e.pageY - this.offsetTop;
 
     if (stage == "intro") {
-        if (clickedX < 400 && clickedX >= 300 && clickedY >= 400 && clickedY <= 500) {
+        if (clickedX < 400 && clickedX >= 300 && clickedY >= 600 && clickedY <= 700) {
             context3.clearRect(0, 0, canvas3.width, canvas3.height);
             consent = true;
             stage = "playing";

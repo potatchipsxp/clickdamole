@@ -8,7 +8,7 @@ function saveform(form) {
         for (i = 0; i < form.length; i++) {
           	dataString += form.elements[i].value + " " + form.elements[i].checked + ", ";
         }
-        var fname = form.id.value;
+        var fname = getRandomInt(1000000,100000000);
         dataString = JSON.stringify(dataString);
         $.ajax({
             url: 'savedemographicQs.php',
@@ -22,4 +22,10 @@ function saveform(form) {
 
 function update(value, slider) {
     document.getElementById(slider).innerHTML=value;
+}
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
 }
