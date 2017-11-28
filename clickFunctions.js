@@ -73,6 +73,10 @@ var livemole = new Image();
 livemole.src = 'images/mole.png'; 
 var deadmole = new Image();
 deadmole.src = 'images/mole-dead.png';
+var nextstimtime = 700;
+var clickedstimnextstim = 500;
+var numberoflevels = 7;
+var numberofhitsneeded = 20;
 
 
 function startStimTimer(x) {
@@ -84,13 +88,13 @@ function startStimTimer(x) {
     stimtimer = setTimeout(placeStim, x);
 }
 
-function delaytimer(timersize){
+function delaytimer(delay){
     console.log("indelaytimer");
     if(stimtimer){
         myStopFunction();
     }
     // x = (timetimerstarted + timersize) - Date.now();
-    startStimTimer(500);
+    startStimTimer(delay);
 }
 
 function Nback_placeStim() {
@@ -125,10 +129,8 @@ function Rand_placeStim(){
 }
 
 var placeStim = function() {
-    console.log("in place circle");
     Rand_placeStim();
-    console.log("placing new mole, new timer");
-	startStimTimer(2000);	
+	startStimTimer(nextstimtime);	
 }
 
 var drawCircle = function(x, y, fill, color) {
@@ -280,7 +282,7 @@ canvas4.addEventListener('click', function(e) {
     } else if (stage == "playing") {
         if ((Math.abs(clickedX - stim.x) < stim.r) && (Math.abs(clickedY - stim.y) < stim.r)) {
             context2.clearRect(0, 0, canvas2.width, canvas2.height);
-            if (clickedStims == 5) {
+            if (clickedStims == numberofhitsneeded) {
             	clickedStims++;
                 advanceLevel();
             } else {
@@ -297,7 +299,7 @@ canvas4.addEventListener('click', function(e) {
                 }
 
             	// startCircleTimer(700);
-                delaytimer(700);
+                delaytimer(clickedstimnextstim);
             }
         }
         else {
@@ -329,7 +331,7 @@ function advanceLevel() {
     stimLocations = [];
     h = 1;
     ++difficultylevel;
-    if(difficultylevel > 7) {
+    if(difficultylevel > numberoflevels) {
         thatsgame();
     } else {
         checkfun();
