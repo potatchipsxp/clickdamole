@@ -1,3 +1,7 @@
+body {
+	background-repeat: no-repeat;
+}
+
 .wrapper {
     	position: relative;
     	width: 800px;
