@@ -13,6 +13,7 @@ var canvas2 = document.getElementById('canvas2');
 var canvas3 = document.getElementById('canvas3');
 var canvas4 = document.getElementById('canvas4');
 var Qform = document.getElementById('Qform');
+var demogForm = document.getElementById('demogQs');
 var boring_instructions_text = document.getElementById('boring_instructions');
 var gameover_text = document.getElementById('gameover');
 var whackamole_inst = document.getElementById('whackainst');
@@ -76,7 +77,11 @@ deadmole.src = 'images/mole-dead.png';
 var nextstimtime = 700;
 var clickedstimnextstim = 500;
 var numberoflevels = 7;
-var numberofhitsneeded = 20;
+var numberofhitsneeded = 3;
+var gamecomplete = false;
+var showdemogform = true;
+var numberofstimsshown = 0;
+var maxlevellength = 5;
 
 
 function startStimTimer(x) {
@@ -129,6 +134,13 @@ function Rand_placeStim(){
 }
 
 var placeStim = function() {
+    ++numberofstimsshown;
+    /*
+    if(numberofstimsshown > maxlevellength){
+        myStopFunction();
+        advanceLevel();
+    }
+    */
     Rand_placeStim();
 	startStimTimer(nextstimtime);	
 }
@@ -161,6 +173,7 @@ function myStopFunction() {
 var introduction = function() {
     console.log("intro");
     Qform.style.display='none';
+    demogForm.style.display='none';
     gameover_text.style.display='none';
     if(version=="boring"){
         whackamole_inst.style.display='none';
@@ -210,12 +223,19 @@ var play = function(h, lvl) {
 };
 
 var thatsgame = function() {
-	$("body").removeAttr('style');
-    console.log("thats game");
-    //context3.strokeText("game ova!", 400, 400);
-    gameover_text.style.display='initial';
-    saveToFile(mousecordsX);
-    console.log("game ovah");
+    demogForm.style.display='none';
+    Qform.style.display='none';
+    if(showdemogform == true){
+        showdemogform = false;
+        demogForm.reset();
+        demogForm.style.display='initial';
+    } else {
+        $("body").removeAttr('style');
+        console.log("thats game");
+        gameover_text.style.display='initial';
+        saveToFile(mousecordsX);
+        console.log("game ovah");
+    }
 };
 
 var available_stimLocations = function(lvl) {
@@ -331,22 +351,24 @@ function advanceLevel() {
     stimLocations = [];
     h = 1;
     ++difficultylevel;
-    if(difficultylevel > numberoflevels) {
-        thatsgame();
-    } else {
-        checkfun();
+    if(difficultylevel>numberoflevels){
+        gamecomplete = true;
     }
-    
+    checkfun();    
 }
 
 function backtoGame(form){
     saveform(form);
     context3.clearRect(0, 0, canvas3.width, canvas3.height);
     context2.clearRect(0, 0, canvas2.width, canvas2.height);
-    stage = "playing";
-    play(h, difficultylevel);
-
-    return false;
+    if(gamecomplete == false){
+        stage = "playing";
+        play(h, difficultylevel);
+        return false;
+    } else {
+        thatsgame();
+        return false;
+    }
 }
 
 function getRandomInt(min, max) {
@@ -384,11 +406,11 @@ function saveToFile(data) {
     });
 }
 
-function saveform() {
+function saveform(form) {
     var checkfunData;
-    for (i = 0; i < Qform.length; i++){
-        if(Qform.elements[i].checked == true){
-            checkfunData += Qform.elements[i].name + "=" + Qform.elements[i].value + ", ";
+    for (i = 0; i < form.length; i++){
+        if(form.elements[i].checked == true){
+            checkfunData += form.elements[i].name + "=" + form.elements[i].value + ", ";
         }
     }
     console.log("checkfundata is " + checkfunData);

@@ -54,7 +54,13 @@ body {
   font-size:large;
 }
 
-
+.demogs {
+  font:12px Arial, san-serif;
+	z-index: 2;
+	position: absolute;
+	top: 50px;
+	left: 200px;
+}
 
 html,body {padding:0;margin:0;}
 

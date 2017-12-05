@@ -237,8 +237,66 @@
                                 <label>Strongly agree</label>
                             </li>                        </ul>
                         <div class="buttons">
-                        <button onclick="return backtoGame()">Submit</button>
+                        <button onclick="return backtoGame(Qform)">Submit</button>
                         </div>
+                    </form>
+                </div>
+                <div class="demogs">
+                    <form id="demogQs">
+                        <label>How old are you?</label>
+                        <br>
+                        <label>What is your gender?</label>
+                        <br>
+                        <input type="radio" name="GenderQ" value="male">male<br>
+                        <input type="radio" name="GenderQ" value="female">female<br>
+                        <input type="radio" name="GenderQ" value="other">other<br>
+                        <br>
+                        <label>What is your ethnicity?</label>
+                        <br>
+                        <input type="radio" name="ethnicity" value="white, nonhispanic">male<br>
+                        <input type="radio" name="ethnicity" value="hispanic">female<br>
+                        <input type="radio" name="ethnicity" value="african american">other<br>
+                        <br>
+                        <label>Is english your first language?</label>
+                        <br>
+                        <input type="radio" name="LangQ" value="yes">yes<br>
+                        <input type="radio" name="LangQ" value="no">no<br>
+                        <br>
+                        <label>How many letters are in the english alphabet?</label>
+                        <br>
+                        <input type="radio" name="CatchQ" value="20">20<br>
+                        <input type="radio" name="CatchQ" value="10">10<br>
+                        <input type="radio" name="CatchQ" value="58">58<br>
+                        <input type="radio" name="CatchQ" value="26">26<br>
+                        <br>
+                        <label>Growing up, how many hours per week did you play video games?</label>
+                        <br>
+                        <input type="radio" name="hoursplayedgrowingup" value="0">zero<br>
+                        <input type="radio" name="hoursplayedgrowingup" value="<1">less than one<br>
+                        <input type="radio" name="hoursplayedgrowingup" value="1-2">one to two<br>
+                        <input type="radio" name="hoursplayedgrowingup" value="2-4">two to four<br>
+                        <input type="radio" name="hoursplayedgrowingup" value="4-8">four to eight<br>
+                        <input type="radio" name="hoursplayedgrowingup" value=">8">more than 8<br>
+                        <br>
+                        <label>How many hours per week do you play video games now?</label>
+                        <br>
+                        <input type="radio" name="hoursplayednow" value="0">zero<br>
+                        <input type="radio" name="hoursplayednow" value="<1">less than one<br>
+                        <input type="radio" name="hoursplayednow" value="1-2">one to two<br>
+                        <input type="radio" name="hoursplayednow" value="2-4">two to four<br>
+                        <input type="radio" name="hoursplayednow" value="4-8">four to eight<br>
+                        <input type="radio" name="hoursplayednow" value=">8">more than 8<br>
+                        <br>
+                        <label>If you are reading this select the number 17</label>
+                        <br>
+                        <input type="radio" name="catchQ2" value="64">64<br>
+                        <input type="radio" name="catchQ2" value="9">9<br>
+                        <input type="radio" name="catchQ2" value="17">17<br>
+                        <input type="radio" name="catchQ2" value="39">39<br>
+                        <input type="radio" name="catchQ2" value="25">25<br>
+                        <input type="radio" name="catchQ2" value=">100">100<br>
+                        <br>
+                        <button onclick="return backtoGame(demogForm)">Submit</button>
                     </form>
                 </div>
         </div>
