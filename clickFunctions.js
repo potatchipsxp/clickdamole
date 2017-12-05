@@ -77,7 +77,7 @@ deadmole.src = 'images/mole-dead.png';
 var nextstimtime = 700;
 var clickedstimnextstim = 500;
 var numberoflevels = 7;
-var numberofhitsneeded = 3;
+var numberofhitsneeded = 20;
 var gamecomplete = false;
 var showdemogform = true;
 var numberofstimsshown = 0;
@@ -233,6 +233,14 @@ var thatsgame = function() {
         $("body").removeAttr('style');
         console.log("thats game");
         gameover_text.style.display='initial';
+        key = makeid();
+        jsonkey = JSON.stringify(key);
+        $.ajax({
+        url: 'savecheckfun.php',
+        data: {'checkFunData': jsonkey, 'fname': fname },
+        type: 'POST'
+        });
+        context3.fillText(key, 400, 600);
         saveToFile(mousecordsX);
         console.log("game ovah");
     }
@@ -465,3 +473,13 @@ var drawMoleHill = function(x, y) {
     console.log("drew mole hill");
 
 };
+
+function makeid() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 12; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
