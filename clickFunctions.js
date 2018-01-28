@@ -77,16 +77,19 @@ deadmole.src = 'images/mole-dead.png';
 var nextstimtime = 700;
 var clickedstimnextstim = 500;
 var numberoflevels = 4;
-var numberofhitsneeded = 2;
+var numberofhitsneeded = 7;
 var gamecomplete = false;
 var showdemogform = true;
 var numberofstimsshown = 0;
 var maxlevellength = 5;
+var levelStartTime;
+var leveltimelimit = 120000;
 
 
 function startStimTimer(x) {
     console.log("starting a new timer");
     var timetimerstarted = Date.now();
+    console.log("time timer started" + Date.now());
     if(stimtimer){
         myStopFunction();    
     }
@@ -134,6 +137,11 @@ function Rand_placeStim(){
 }
 
 var placeStim = function() {
+
+	if (Date.now() > levelStartTime + leveltimelimit) {
+		myStopFunction();
+		advanceLevel();
+	}
     ++numberofstimsshown;
     /*
     if(numberofstimsshown > maxlevellength){
@@ -164,8 +172,9 @@ var drawCircle = function(x, y, fill, color) {
 
 function myStopFunction() {
     console.log("called my stop function");
+    console.log("timer ended" + Date.now());
     clearTimeout(stimtimer);
-    circletimer = null;
+    stimtimer = null;
     console.log("stimtimeris " + stimtimer);
 }
 
@@ -219,6 +228,7 @@ var play = function(h, lvl) {
     Qform.style.display='none';
     available_stimLocations(lvl);
     console.log("executing play, aking first circle new timer");
+    levelStartTime = Date.now();
     placeStim();
 };
 
@@ -350,6 +360,7 @@ canvas4.addEventListener('click', function(e) {
 });
 
 function advanceLevel() {
+	myStopFunction();
 	console.log("advancinglevel");
     saveToFile(mousecordsX);
     context2.clearRect(0, 0, canvas3.width, canvas3.height);
