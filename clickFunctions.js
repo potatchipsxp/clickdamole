@@ -363,6 +363,8 @@ function advanceLevel() {
 	myStopFunction();
 	console.log("advancinglevel");
     saveToFile(mousecordsX);
+    saveToFile(numberofstimsshown);
+    saveToFile(clickedStims);
     context2.clearRect(0, 0, canvas3.width, canvas3.height);
     context.clearRect(0, 0, canvas3.width, canvas3.height);
     clickedStims = 1;
@@ -403,7 +405,7 @@ canvas4.addEventListener('mousemove', function(e) {
     var mouseX = e.pageX - this.offsetLeft;
     var mouseY = e.pageY - this.offsetTop;
         if(stage == "playing"){
-            if(checktime() % 2 == 0) {
+            if(checktime() % 1 == 0) {
                 mousecordsX.push(mouseX);
                 mousecordsY.push(mouseY);
                 leveltheyreon.push(difficultylevel);
