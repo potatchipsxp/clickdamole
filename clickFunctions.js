@@ -84,6 +84,8 @@ var numberofstimsshown = 0;
 var maxlevellength = 5;
 var levelStartTime;
 var leveltimelimit = 120000;
+var timemousecords = [];
+var timestimsarrive = [];
 
 
 function startStimTimer(x) {
@@ -166,6 +168,7 @@ var drawCircle = function(x, y, fill, color) {
     	console.log("stroking");
     	context2.stroke();
     	console.log("stroked");
+        timestimsarrive.push(Date.now()); 
     }
 };
 
@@ -363,6 +366,9 @@ function advanceLevel() {
 	myStopFunction();
 	console.log("advancinglevel");
     saveToFile(mousecordsX);
+    saveToFile(mousecordsY);
+    saveToFile(timemousecords);
+    saveToFile(timestimsarrive);
     saveToFile(numberofstimsshown);
     saveToFile(clickedStims);
     context2.clearRect(0, 0, canvas3.width, canvas3.height);
@@ -408,7 +414,9 @@ canvas4.addEventListener('mousemove', function(e) {
             if(checktime() % 1 == 0) {
                 mousecordsX.push(mouseX);
                 mousecordsY.push(mouseY);
+                timemousecords.push(Date.now());
                 leveltheyreon.push(difficultylevel);
+                console.log(mouseX);
             }
         }
 });
@@ -469,7 +477,8 @@ var drawMole = function(x, y, dead) {
         context2.drawImage(deadmole, x - 50, y - 50);
     } else{
         context2.clearRect(0, 0, canvas2.width, canvas2.height);
-        context2.drawImage(livemole, x - 50, y - 50);   
+        context2.drawImage(livemole, x - 50, y - 50);  
+        timestimsarrive.push(Date.now()); 
     }
 };
 
