@@ -89,9 +89,7 @@ var timestimsarrive = [];
 
 
 function startStimTimer(x) {
-    console.log("starting a new timer");
     var timetimerstarted = Date.now();
-    console.log("time timer started" + Date.now());
     if(stimtimer){
         myStopFunction();    
     }
@@ -99,11 +97,9 @@ function startStimTimer(x) {
 }
 
 function delaytimer(delay){
-    console.log("indelaytimer");
     if(stimtimer){
         myStopFunction();
     }
-    // x = (timetimerstarted + timersize) - Date.now();
     startStimTimer(delay);
 }
 
@@ -119,16 +115,12 @@ function Nback_placeStim() {
     if (usedIndices.length > n_back) {
         usedIndices.shift();
     }
-    //console.log("boutta draw a circle");
-    //drawCircle(rects[index].left + 50, rects[index].top + 50, false);
     drawMole(stimLocations[index].left + 50, stimLocations[index].top + 50);
-    // console.log("circle timer is " + circletimer);
 }
 
 function Rand_placeStim(){
     var i = getRandomInt(0,stimLocations.length);
     stim = new Stim(stimLocations[i].left + 50, stimLocations[i].top + 50, 50);
-
     if(version == "whackamole"){
         drawMole(stimLocations[i].left + 50, stimLocations[i].top + 50);   
     } else if(version == "boring"){
@@ -145,45 +137,31 @@ var placeStim = function() {
 		advanceLevel();
 	}
     ++numberofstimsshown;
-    /*
-    if(numberofstimsshown > maxlevellength){
-        myStopFunction();
-        advanceLevel();
-    }
-    */
     Rand_placeStim();
 	startStimTimer(nextstimtime);	
 }
 
 var drawCircle = function(x, y, fill, color) {
-	console.log("draw circle");
     context2.clearRect(0, 0, canvas2.width, canvas2.height);
     context2.beginPath();
     context2.arc(x, y, 50, 0, 2 * Math.PI);
     if(fill == true){
-    	console.log("filling");
     	context.fillStyle = color;
     	context2.fill();
     } else {
-    	console.log("stroking");
     	context2.stroke();
-    	console.log("stroked");
         timestimsarrive.push(Date.now()); 
     }
 };
 
 
 function myStopFunction() {
-    console.log("called my stop function");
-    console.log("timer ended" + Date.now());
     clearTimeout(stimtimer);
     stimtimer = null;
-    console.log("stimtimeris " + stimtimer);
 }
 
 
 var introduction = function() {
-    console.log("intro");
     Qform.style.display='none';
     demogForm.style.display='none';
     gameover_text.style.display='none';
@@ -202,7 +180,6 @@ var checkfun = function() {
 
 	$("body").css("background-image", "none");
 
-    console.log("checkfun");
     Qform.reset();
     Qform.style.display='initial';
     stage = "checkingfun";
@@ -213,13 +190,11 @@ var play = function(h, lvl) {
     boring_instructions_text.style.display='none';
     whackamole_inst.style.display='none';
 
-	console.log("in play");
     if(version == "whackamole"){
         var grass = new Image();
     
         grass.onload=function(){
             document.body.background = grass;
-            console.log("set the back ground");
         }
 
         grass.src = 'images/grassbackground.jpg';
@@ -230,7 +205,6 @@ var play = function(h, lvl) {
 	
     Qform.style.display='none';
     available_stimLocations(lvl);
-    console.log("executing play, aking first circle new timer");
     levelStartTime = Date.now();
     placeStim();
 };
@@ -281,9 +255,6 @@ var available_stimLocations = function(lvl) {
         } else if(version == "boring"){
             drawRect(x, y, label);
         }
-    	
-
-    	//draw(x, y, "Box" + label);
     }
     stimIndices = range(stimLocations.length);
 };
@@ -328,38 +299,17 @@ canvas4.addEventListener('click', function(e) {
                 advanceLevel();
             } else {
             	clickedStims++;
-                console.log("clickedmole, new timer");
-            	//clearTimeout(circletimer);
-            	//myStopFunction();
-            	//drawMole(stim.x, stim.y, true);
-
                 if(version == "whackamole"){
                     drawMole(stim.x, stim.y, true); 
                 } else if(version == "boring"){
                     drawCircle(stim.x, stim.y, true, "green");
                 }
-
-            	// startCircleTimer(700);
                 delaytimer(clickedstimnextstim);
             }
         }
         else {
-            console.log(stimtimer.value);
-            console.log(clickedX);
-        }
-
-    } /*
-    else if (stage == "checkingfun") {
-        console.log(clickedX + "," + clickedY);
-        if (clickedX < 400 && clickedX >= 300 && clickedY >= 600 && clickedY <= 700) {
-        	saveform(Qform);
-            context3.clearRect(0, 0, canvas3.width, canvas3.height);
-            context2.clearRect(0, 0, canvas2.width, canvas2.height);
-            stage = "playing";
-            play(h, difficultylevel);
         }
     }
-    */
 });
 
 function advanceLevel() {
@@ -371,6 +321,7 @@ function advanceLevel() {
     saveToFile(timestimsarrive);
     saveToFile(numberofstimsshown);
     saveToFile(clickedStims);
+    console.log("savedstufftofile");
     context2.clearRect(0, 0, canvas3.width, canvas3.height);
     context.clearRect(0, 0, canvas3.width, canvas3.height);
     clickedStims = 1;
@@ -410,15 +361,12 @@ function range(i) { return i ? range(i - 1).concat(i - 1) : [] }
 canvas4.addEventListener('mousemove', function(e) {
     var mouseX = e.pageX - this.offsetLeft;
     var mouseY = e.pageY - this.offsetTop;
-        if(stage == "playing"){
-            if(checktime() % 1 == 0) {
-                mousecordsX.push(mouseX);
-                mousecordsY.push(mouseY);
-                timemousecords.push(Date.now());
-                leveltheyreon.push(difficultylevel);
-                console.log(mouseX);
-            }
-        }
+    if(stage == "playing"){
+        mousecordsX.push(mouseX);
+        mousecordsY.push(mouseY);
+        timemousecords.push(Date.now());
+        leveltheyreon.push(difficultylevel);
+    }
 });
 
 var checktime = function() {
@@ -442,7 +390,6 @@ function saveform(form) {
             checkfunData += form.elements[i].name + "=" + form.elements[i].value + ", ";
         }
     }
-    console.log("checkfundata is " + checkfunData);
     json_checkfunData = JSON.stringify(checkfunData);
     $.ajax({
         url: 'savecheckfun.php',
@@ -470,8 +417,6 @@ NEW FUNCTIONS MADE FOR WHACKAMOLE
 
 var drawMole = function(x, y, dead) {
 
-	// console.log("drawing a mole");
-
     if(dead==true){
         context2.clearRect(0, 0, canvas2.width, canvas2.height);
         context2.drawImage(deadmole, x - 50, y - 50);
@@ -484,16 +429,11 @@ var drawMole = function(x, y, dead) {
 
 var drawMoleHill = function(x, y) {
 
-	console.log("drawing a molehill");
-
     var hole = new Image();
     hole.onload=function(){
      	context.drawImage(hole, x - 35, y + 50);
     }
     hole.src = 'images/mole_hole1.png';
-    
-    console.log("drew mole hill");
-
 };
 
 function makeid() {
