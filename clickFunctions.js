@@ -76,11 +76,13 @@ var deadmole = new Image();
 deadmole.src = 'images/mole-dead.png';
 var nextstimtime = 700;
 var clickedstimnextstim = 500;
+var stimsclickedthislevel = 0;
 var numberoflevels = 8;
 var numberofhitsneeded = 20;
 var gamecomplete = false;
 var showdemogform = true;
 var numberofstimsshown = 0;
+var stimsshownthislevel = 0;
 var maxlevellength = 5;
 var levelStartTime;
 var leveltimelimit = 120000;
@@ -137,6 +139,7 @@ var placeStim = function() {
 		advanceLevel();
 	}
     ++numberofstimsshown;
+    ++stimsshownthislevel;
     Rand_placeStim();
 	startStimTimer(nextstimtime);	
 }
@@ -186,7 +189,8 @@ var checkfun = function() {
 };
 
 var play = function(h, lvl) {
-
+    stimsshownthislevel = 0;
+    stimsclickedthislevel = 0;
     boring_instructions_text.style.display='none';
     whackamole_inst.style.display='none';
 
@@ -228,7 +232,7 @@ var thatsgame = function() {
         type: 'POST'
         });
         context3.fillText(key, 400, 600);
-        saveToFile(mousecordsX);
+        //saveToFile(mousecordsX);
         console.log("game ovah");
     }
 };
@@ -296,9 +300,12 @@ canvas4.addEventListener('click', function(e) {
             context2.clearRect(0, 0, canvas2.width, canvas2.height);
             if (clickedStims == numberofhitsneeded) {
             	clickedStims++;
+                ++stimsclickedthislevel;
                 advanceLevel();
             } else {
             	clickedStims++;
+                ++stimsclickedthislevel;
+                console.log(stimsclickedthislevel/stimsshownthislevel);
                 if(version == "whackamole"){
                     drawMole(stim.x, stim.y, true); 
                 } else if(version == "boring"){
@@ -315,13 +322,15 @@ canvas4.addEventListener('click', function(e) {
 function advanceLevel() {
 	myStopFunction();
 	console.log("advancinglevel");
-    saveToFile(mousecordsX);
-    saveToFile(mousecordsY);
-    saveToFile(timemousecords);
-    saveToFile(timestimsarrive);
-    saveToFile(numberofstimsshown);
-    saveToFile(clickedStims);
-    console.log("savedstufftofile");
+    //saveToFile(mousecordsX);
+    //saveToFile(mousecordsY);
+    //saveToFile(timemousecords);
+    //saveToFile(timestimsarrive);
+    //saveToFile(numberofstimsshown);
+    //saveToFile(clickedStims);
+    //console.log("savedstufftofile");
+    var accuracyratio = stimsclickedthislevel/stimsshownthislevel;
+    saveToFile(accuracyratio);
     context2.clearRect(0, 0, canvas3.width, canvas3.height);
     context.clearRect(0, 0, canvas3.width, canvas3.height);
     clickedStims = 1;
