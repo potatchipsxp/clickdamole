@@ -88,6 +88,7 @@ var levelStartTime;
 var leveltimelimit = 120000;
 var timemousecords = [];
 var timestimsarrive = [];
+var cantclickagain = false;
 
 
 function startStimTimer(x) {
@@ -140,6 +141,7 @@ var placeStim = function() {
 	}
     ++numberofstimsshown;
     ++stimsshownthislevel;
+    cantclickagain = false;
     Rand_placeStim();
 	startStimTimer(nextstimtime);	
 }
@@ -296,7 +298,8 @@ canvas4.addEventListener('click', function(e) {
             play(h, difficultylevel);
         }
     } else if (stage == "playing") {
-        if ((Math.abs(clickedX - stim.x) < stim.r) && (Math.abs(clickedY - stim.y) < stim.r)) {
+        if ((Math.abs(clickedX - stim.x) < stim.r) && (Math.abs(clickedY - stim.y) < stim.r) && (cantclickagain == false)) {
+            cantclickagain = true;
             context2.clearRect(0, 0, canvas2.width, canvas2.height);
             if (clickedStims == numberofhitsneeded) {
             	clickedStims++;

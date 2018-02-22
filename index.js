@@ -1,8 +1,7 @@
 function saveform(form) {
-    if (form.consent.checked == false) {
-        console.log("didnt consent");
-        location.reload(true);    
-    } else {
+	console.log(form.input_device.value);
+    if ((form.consent.checked == true) && ((form.input_device.value == "mouse") || (form.input_device.value == "trackpad") || (form.input_device.value == "other"))) {
+    	
         console.log("consented");
         var dataString;
         for (i = 0; i < form.length; i++) {
@@ -16,7 +15,12 @@ function saveform(form) {
             type: 'POST'
         });
         window.location.href = "./click.html";
-        return false;
+        return false;    
+    } else {
+        console.log(form.input_device.value);
+        console.log("didnt consent");
+        location.reload(true);
+        alert("To continue you must select a device and check the consent box");
     }
 }
 
