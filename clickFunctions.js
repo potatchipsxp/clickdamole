@@ -233,7 +233,8 @@ var thatsgame = function() {
         data: {'checkFunData': jsonkey, 'fname': fname },
         type: 'POST'
         });
-        context3.fillText(key, 400, 600);
+        document.getElementById('key').innerHTML = key;
+        //context3.fillText(key, 400, 600);
         //saveToFile(mousecordsX);
         console.log("game ovah");
     }
