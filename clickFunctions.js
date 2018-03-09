@@ -77,8 +77,8 @@ deadmole.src = 'images/mole-dead.png';
 var nextstimtime = 650;
 var clickedstimnextstim = 500;
 var stimsclickedthislevel = 0;
-var numberoflevels = 10;
-var numberofhitsneeded = 20;
+var numberoflevels = 10; //10
+var numberofhitsneeded = 20; //20
 var gamecomplete = false;
 var showdemogform = true;
 var numberofstimsshown = 0;
@@ -400,6 +400,9 @@ function saveToFile(data) {
 function saveform(form) {
     var checkfunData;
     for (i = 0; i < form.length; i++){
+    	if(form.elements[i].type != "radio" && form.elements[i].type != null){
+    		checkfunData += form.elements[i].name + "=" + form.elements[i].value + ", ";
+    	}
         if(form.elements[i].checked == true){
             checkfunData += form.elements[i].name + "=" + form.elements[i].value + ", ";
         }
