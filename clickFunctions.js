@@ -335,7 +335,7 @@ function advanceLevel() {
     //saveToFile(clickedStims);
     //console.log("savedstufftofile");
     var accuracyratio = stimsclickedthislevel/stimsshownthislevel;
-    saveToFile(accuracyratio + "!" + mousecordsX + "!" + mousecordsY + "!" + timemousecords + "/!" + timestimsarrive + "!" + difficultylevel + "!" + stimsclickedthislevel + "!" + stimsshownthislevel);
+    saveToFile(accuracyratio + "!" + mousecordsX + "!" + mousecordsY + "!" + timemousecords + "!" + timestimsarrive + "!" + difficultylevel + "!" + stimsclickedthislevel + "!" + stimsshownthislevel);
     context2.clearRect(0, 0, canvas3.width, canvas3.height);
     context.clearRect(0, 0, canvas3.width, canvas3.height);
     clickedStims = 1;
