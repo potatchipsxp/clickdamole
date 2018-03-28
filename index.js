@@ -1,4 +1,10 @@
+/*
+
+            <button onclick=" event.preventDefault(); return saveform(this.form);">Submit</button>
+*/
+
 function saveform(form) {
+    console.log('insaveform');
 	console.log(form.input_device.value);
     if ((form.consent.checked == true) && ((form.input_device.value == "mouse") || (form.input_device.value == "trackpad") || (form.input_device.value == "other"))) {
         console.log("consented");
@@ -6,14 +12,25 @@ function saveform(form) {
         for (i = 0; i < form.length; i++) {
           	dataString += form.elements[i].value + " " + form.elements[i].checked + ", ";
         }
+        var worked = false;
         var fname = makeid();
         dataString = JSON.stringify(dataString);
         $.ajax({
+            type: 'POST',
             url: 'savedemographicQs.php',
             data: { 'dataString': dataString, 'fname': fname },
-            type: 'POST'
+            success: function(){
+                window.location.href = "./click.html?fname=" + fname;
+            },
+            error: function(){
+                alert("ajax failed");
+            }
+        }).done(function () {
+            console.log("it ran");
         });
-        window.location.href = "./click.html";
+        //console.log('it worked ' + worked);
+        //console.log(fname);
+        //window.location.href = "./click.html?fname=" + fname;
         return false;    
     } else {
         console.log(form.input_device.value);
@@ -23,6 +40,41 @@ function saveform(form) {
     }
 }
 
+
+/*
+$("prelim").submit(function(e) {
+
+    console.log('insaveform');
+    console.log(form.input_device.value);
+    if ((form.consent.checked == true) && ((form.input_device.value == "mouse") || (form.input_device.value == "trackpad") || (form.input_device.value == "other"))) {
+        console.log("consented");
+        var dataString;
+        for (i = 0; i < form.length; i++) {
+            dataString += form.elements[i].value + " " + form.elements[i].checked + ", ";
+        }
+        var worked = false;
+        var fname = makeid();
+        dataString = JSON.stringify(dataString);
+        jQuery.ajax({
+            type: 'POST',
+            url: 'savedemographicQs.php',
+            data: { 'dataString': dataString, 'fname': fname }
+        }).done(function () {
+            console.log("it ran");
+        });
+        console.log('it worked ' + worked);
+        console.log(fname);
+        window.location.href = "./click.html?fname=" + fname;
+        return false;    
+    } else {
+        console.log(form.input_device.value);
+        console.log("didnt consent");
+        location.reload(true);
+        alert("To continue you must select a device and check the consent box");
+    }
+    return false;
+});
+*/
 function update(value, slider) {
     document.getElementById(slider).innerHTML=value;
 }
