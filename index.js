@@ -5,8 +5,17 @@
 
 function saveform(form) {
     console.log('insaveform');
-	console.log(form.input_device.value);
-    if ((form.consent.checked == true) && ((form.input_device.value == "mouse") || (form.input_device.value == "trackpad") || (form.input_device.value == "other"))) {
+    var radios = form.elements["input_device"];
+    var env = null;
+    for(var i=0;i<radios.length;i++) {
+        if(radios[i].checked == true) {
+            env = radios[i].value;
+        }
+    }
+    console.log(env);
+	console.log(form.elements["input_device"].checked);
+    console.log(form.consent.checked);
+    if ((form.consent.checked == true) && (env != null)) {
         console.log("consented");
         var dataString;
         for (i = 0; i < form.length; i++) {
