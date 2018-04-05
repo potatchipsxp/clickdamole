@@ -227,6 +227,7 @@ var thatsgame = function() {
         console.log("thats game");
         gameover_text.style.display='initial';
         key = makeid();
+        key = "ID!" + key
         jsonkey = JSON.stringify(key);
         $.ajax({
         url: 'savecheckfun.php',
@@ -335,7 +336,7 @@ function advanceLevel() {
     //saveToFile(clickedStims);
     //console.log("savedstufftofile");
     var accuracyratio = stimsclickedthislevel/stimsshownthislevel;
-    saveToFile(accuracyratio + "!" + mousecordsX + "!" + mousecordsY + "!" + timemousecords + "!" + timestimsarrive + "!" + difficultylevel + "!" + stimsclickedthislevel + "!" + stimsshownthislevel);
+    saveToFile("leveldata!" + accuracyratio + "!" + mousecordsX + "!" + mousecordsY + "!" + timemousecords + "!" + timestimsarrive + "!" + difficultylevel + "!" + stimsclickedthislevel + "!" + stimsshownthislevel);
     context2.clearRect(0, 0, canvas3.width, canvas3.height);
     context.clearRect(0, 0, canvas3.width, canvas3.height);
     clickedStims = 1;
@@ -399,6 +400,8 @@ function saveToFile(data) {
 
 function saveform(form) {
     var checkfunData;
+    console.log(form.id);
+    checkfunData += form.id + "!";
     for (i = 0; i < form.length; i++){
     	if(form.elements[i].type != "radio" && form.elements[i].type != null){
     		checkfunData += form.elements[i].name + "=" + form.elements[i].value + ", ";

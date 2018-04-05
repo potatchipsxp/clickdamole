@@ -12,12 +12,16 @@ function saveform(form) {
             env = radios[i].value;
         }
     }
+    console.log("getting form id");
+    console.log(form.id);
+    console.log("got form id");
     console.log(env);
 	console.log(form.elements["input_device"].checked);
     console.log(form.consent.checked);
     if ((form.consent.checked == true) && (env != null)) {
         console.log("consented");
         var dataString;
+        dataString += form.id + "!";
         for (i = 0; i < form.length; i++) {
           	dataString += form.elements[i].value + " " + form.elements[i].checked + ", ";
         }
