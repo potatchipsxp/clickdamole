@@ -28,7 +28,7 @@ context.font = fonttype;
 
 var context2 = canvas2.getContext('2d');
 context2.fillStyle = fillcolor;
-context2.lineWidth = linewidth;
+context2.lineWidth = linewidth;  
 context2.strokeStyle = strokestyle;
 context2.fillStyle = fontcolor;
 context2.textAlign = textalign;
@@ -45,51 +45,66 @@ context3.font = fonttype;
 var stimLocations = [];
 var stimIndices = [];
 var usedIndices = [];
-var n_back = 2;
 
-var length = 100;
-var width = 100;
+var livemole = new Image();
+livemole.src = 'images/mole.png'; 
+var deadmole = new Image();
+deadmole.src = 'images/mole-dead.png';
+
 var fillcolor = "green";
 var linewidth = 20;
 var strokestyle = "#003300";
 var fontcolor = "white";
 var textalign = "center";
 var fonttype = "bold 32px Arial";
+var playing;
+// var h = 1;
+
+//var fname = "mydata.txt"
+
+//game variables
+
 var stim;
+var stage;
+var neednewtimer = true;
+var version;
+var gamecomplete = false;
+var showdemogform = true;
+var length = 100;
+var width = 100;
+var stimtimer;
+var clickedStims = 0;
 var difficultylevel = 3;
 var consent = false;
-var h = 1;
-var clickedStims = 1;
-var stage;
-var playing = true;
+
+
+
+//task parameters
+
+var n_back = 2;
+var nextstimtime = 650;
+var clickedstimnextstim = 500;
+var numberoflevels = 10; //10
+var numberofhitsneeded = 20; //20
+var stimsclickedthislevel = 0;
+
+
+//experiment variables
+
+
+var timetimerstarted;
+var levelStartTime;
+var leveltimelimit = 60000; //60000
+var cantclickagain = false;
+var numberofstimsshown = 0;
+var stimsshownthislevel = 0;
+var timemousecords = [];
+var timestimsarrive = [];
 var mousecordsX = [];
 var mousecordsY = [];
 var leveltheyreon = [];
-var fname = "mydata.txt"
-var stimtimer;
-var version;
-var neednewtimer = true;
-var timetimerstarted;
-var livemole = new Image();
-livemole.src = 'images/mole.png'; 
-var deadmole = new Image();
-deadmole.src = 'images/mole-dead.png';
-var nextstimtime = 650;
-var clickedstimnextstim = 500;
-var stimsclickedthislevel = 0;
-var numberoflevels = 10; //10
-var numberofhitsneeded = 2; //20
-var gamecomplete = false;
-var showdemogform = true;
-var numberofstimsshown = 0;
-var stimsshownthislevel = 0;
-var maxlevellength = 5;
-var levelStartTime;
-var leveltimelimit = 60000;
-var timemousecords = [];
-var timestimsarrive = [];
-var cantclickagain = false;
-
+var mouseCordsXClicks = [];
+var mouseCordsYClicks = [];
 
 function startStimTimer(x) {
     var timetimerstarted = Date.now();
@@ -156,6 +171,7 @@ var drawCircle = function(x, y, fill, color) {
     } else {
     	context2.stroke();
         timestimsarrive.push(Date.now()); 
+        console.log("loging in draw circle");
     }
 };
 
@@ -183,14 +199,15 @@ var introduction = function() {
 
 var checkfun = function() {
 
+    console.log("checkingfun");
 	$("body").css("background-image", "none");
 
     Qform.reset();
-    Qform.style.display='initial';
+    Qform.style.display=""; // initial
     stage = "checkingfun";
 };
 
-var play = function(h, lvl) {
+var play = function(lvl) {
     stimsshownthislevel = 0;
     stimsclickedthislevel = 0;
     boring_instructions_text.style.display='none';
@@ -221,17 +238,17 @@ var thatsgame = function() {
     if(showdemogform == true){
         showdemogform = false;
         demogForm.reset();
-        demogForm.style.display='initial';
+        demogForm.style.display=""; //initial
     } else {
         $("body").removeAttr('style');
         console.log("thats game");
-        gameover_text.style.display='initial';
+        gameover_text.style.display=""; //initial
         key = makeid();
         key = "ID!" + key
         jsonkey = JSON.stringify(key);
         $.ajax({
         url: 'savecheckfun.php',
-        data: {'checkFunData': jsonkey, 'fname': fname },
+        data: {'checkFunData': jsonkey},
         type: 'POST'
         });
         document.getElementById('key').innerHTML = key;
@@ -242,6 +259,7 @@ var thatsgame = function() {
 };
 
 var available_stimLocations = function(lvl) {
+	console.log(lvl);
     for (j = 0; j < lvl; j++) {
         //i = j * 700;
         angle = 15 * j;
@@ -253,8 +271,8 @@ var available_stimLocations = function(lvl) {
         x = Math.round(x) + 400;
         y = r * Math.sin(angle);
         y = Math.round(y) + 400;
-        h++;
-        label = h.toString();
+        //h++;
+        //label = h.toString();
         //drawRect(x, y, "Box" + label);
         var stimLocation = new StimLocation(x, y, length, width);
         stimLocations.push(stimLocation);
@@ -293,12 +311,15 @@ canvas4.addEventListener('click', function(e) {
     var clickedX = e.pageX - this.offsetLeft;
     var clickedY = e.pageY - this.offsetTop;
 
+	mouseCordsYClicks.push(clickedY);
+	mouseCordsYClicks.push(clickedX);
+
     if (stage == "intro") {
         if (clickedX < 400 && clickedX >= 300 && clickedY >= 600 && clickedY <= 700) {
             context3.clearRect(0, 0, canvas3.width, canvas3.height);
             consent = true;
             stage = "playing";
-            play(h, difficultylevel);
+            play(difficultylevel);
         }
     } else if (stage == "playing") {
         if ((Math.abs(clickedX - stim.x) < stim.r) && (Math.abs(clickedY - stim.y) < stim.r) && (cantclickagain == false)) {
@@ -324,10 +345,11 @@ canvas4.addEventListener('click', function(e) {
         }
     }
 });
-
+/*
 function advanceLevel() {
 	myStopFunction();
 	console.log("advancinglevel");
+	console.log(mousecordsX);
     //saveToFile(mousecordsX);
     //saveToFile(mousecordsY);
     //saveToFile(timemousecords);
@@ -336,13 +358,54 @@ function advanceLevel() {
     //saveToFile(clickedStims);
     //console.log("savedstufftofile");
     var accuracyratio = stimsclickedthislevel/stimsshownthislevel;
-    saveToFile("leveldata!" + accuracyratio + "!" + mousecordsX + "!" + mousecordsY + "!" + timemousecords + "!" + timestimsarrive + "!" + difficultylevel + "!" + stimsclickedthislevel + "!" + stimsshownthislevel);
+    saveToFile("leveldata!" + accuracyratio + "!" + mousecordsX + "!" + mousecordsY + "!" + timemousecords + "!" + timestimsarrive + "!" + difficultylevel + "!" + stimsclickedthislevel + "!" + stimsshownthislevel + "!" + mouseCordsYClicks + "!" + mouseCordsXClicks);
+    //stimsshownthislevel = 0;
+    //stimsclickedthislevel = 0;
+	//timemousecords = [];
+	//timestimsarrive = [];
+	mousecordsX = [];
+	mousecordsY = [];
+	mouseCordsYClicks = [];
+	mouseCordsXClicks = [];
+	context2.clearRect(0, 0, canvas3.width, canvas3.height);
+    context.clearRect(0, 0, canvas3.width, canvas3.height);
+    clickedStims = 1;
+    stimIndices = range(stimLocations.length);
+    h = 1;
+    ++difficultylevel;
+    if(difficultylevel>numberoflevels){
+        gamecomplete = true;
+    }
+    checkfun();    
+}
+*/
+function advanceLevel() {
+    myStopFunction();
+    console.log("advancinglevel");
+    //saveToFile(mousecordsX);
+    //saveToFile(mousecordsY);
+    //saveToFile(timemousecords);
+    //saveToFile(timestimsarrive);
+    //saveToFile(numberofstimsshown);
+    //saveToFile(clickedStims);
+    //console.log("savedstufftofile");
+    var accuracyratio = stimsclickedthislevel/stimsshownthislevel;
+    saveToFile("leveldata!" + accuracyratio + "!" + mousecordsX + "!" + mousecordsY + "!" + timemousecords + "!" + timestimsarrive + "!" + difficultylevel + "!" + stimsclickedthislevel + "!" + stimsshownthislevel + "!" + mouseCordsYClicks + "!" + mouseCordsXClicks);
+    //saveToFile(accuracyratio + "!" + mousecordsX + "!" + mousecordsY + "!" + timemousecords + "!" + timestimsarrive + "!" + difficultylevel + "!" + stimsclickedthislevel + "!" + stimsshownthislevel);
     context2.clearRect(0, 0, canvas3.width, canvas3.height);
     context.clearRect(0, 0, canvas3.width, canvas3.height);
     clickedStims = 1;
     stimIndices = range(stimLocations.length);
     stimLocations = [];
-    h = 1;
+    //h = 1;
+    mousecordsX = [];
+    mousecordsY = [];
+    mouseCordsYClicks = [];
+    mouseCordsXClicks = [];
+    stimsshownthislevel = 0;
+    stimsclickedthislevel = 0;
+    timemousecords = [];
+    timestimsarrive = [];
     ++difficultylevel;
     if(difficultylevel>numberoflevels){
         gamecomplete = true;
@@ -356,7 +419,7 @@ function backtoGame(form){
     context2.clearRect(0, 0, canvas2.width, canvas2.height);
     if(gamecomplete == false){
         stage = "playing";
-        play(h, difficultylevel);
+        play(difficultylevel);
         return false;
     } else {
         thatsgame();
@@ -379,6 +442,7 @@ canvas4.addEventListener('mousemove', function(e) {
     if(stage == "playing"){
         mousecordsX.push(mouseX);
         mousecordsY.push(mouseY);
+        console.log(mouseX);
         timemousecords.push(Date.now());
         leveltheyreon.push(difficultylevel);
     }
@@ -393,7 +457,7 @@ function saveToFile(data) {
     jsonString = JSON.stringify(data);
     $.ajax({
         url: 'save.php',
-        data: { 'jsonString': jsonString, 'fname': fname },
+        data: { 'jsonString': jsonString},
         type: 'POST'
     });
 }
@@ -413,7 +477,7 @@ function saveform(form) {
     json_checkfunData = JSON.stringify(checkfunData);
     $.ajax({
         url: 'savecheckfun.php',
-        data: {'checkFunData': json_checkfunData, 'fname': fname },
+        data: {'checkFunData': json_checkfunData},
         type: 'POST'
     });
     return false;
@@ -444,6 +508,7 @@ var drawMole = function(x, y, dead) {
         context2.clearRect(0, 0, canvas2.width, canvas2.height);
         context2.drawImage(livemole, x - 50, y - 50);  
         timestimsarrive.push(Date.now()); 
+        console.log("drewnewmole");
     }
 };
 
