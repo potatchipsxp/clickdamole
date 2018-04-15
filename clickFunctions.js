@@ -312,7 +312,7 @@ canvas4.addEventListener('click', function(e) {
     var clickedY = e.pageY - this.offsetTop;
 
 	mouseCordsYClicks.push(clickedY);
-	mouseCordsYClicks.push(clickedX);
+	mouseCordsXClicks.push(clickedX);
 
     if (stage == "intro") {
         if (clickedX < 400 && clickedX >= 300 && clickedY >= 600 && clickedY <= 700) {
