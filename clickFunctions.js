@@ -171,7 +171,7 @@ var drawCircle = function(x, y, fill, color) {
     } else {
     	context2.stroke();
         timestimsarrive.push(Date.now()); 
-        console.log("loging in draw circle");
+        //console.log("loging in draw circle");
     }
 };
 
@@ -199,7 +199,7 @@ var introduction = function() {
 
 var checkfun = function() {
 
-    console.log("checkingfun");
+    //console.log("checkingfun");
 	$("body").css("background-image", "none");
 
     Qform.reset();
@@ -241,7 +241,7 @@ var thatsgame = function() {
         demogForm.style.display=""; //initial
     } else {
         $("body").removeAttr('style');
-        console.log("thats game");
+        //console.log("thats game");
         gameover_text.style.display=""; //initial
         key = makeid();
         key = "ID!" + key
@@ -254,12 +254,12 @@ var thatsgame = function() {
         document.getElementById('key').innerHTML = key;
         //context3.fillText(key, 400, 600);
         //saveToFile(mousecordsX);
-        console.log("game ovah");
+        //console.log("game ovah");
     }
 };
 
 var available_stimLocations = function(lvl) {
-	console.log(lvl);
+	//console.log(lvl);
     for (j = 0; j < lvl; j++) {
         //i = j * 700;
         angle = 15 * j;
@@ -332,7 +332,7 @@ canvas4.addEventListener('click', function(e) {
             } else {
             	clickedStims++;
                 ++stimsclickedthislevel;
-                console.log(stimsclickedthislevel/stimsshownthislevel);
+                //console.log(stimsclickedthislevel/stimsshownthislevel);
                 if(version == "whackamole"){
                     drawMole(stim.x, stim.y, true); 
                 } else if(version == "boring"){
@@ -381,7 +381,7 @@ function advanceLevel() {
 */
 function advanceLevel() {
     myStopFunction();
-    console.log("advancinglevel");
+    //console.log("advancinglevel");
     //saveToFile(mousecordsX);
     //saveToFile(mousecordsY);
     //saveToFile(timemousecords);
@@ -442,8 +442,9 @@ canvas4.addEventListener('mousemove', function(e) {
     if(stage == "playing"){
         mousecordsX.push(mouseX);
         mousecordsY.push(mouseY);
-        console.log(mouseX);
+        //console.log(mouseX);
         timemousecords.push(Date.now());
+        //console.log(timemousecords);
         leveltheyreon.push(difficultylevel);
     }
 });
@@ -464,7 +465,7 @@ function saveToFile(data) {
 
 function saveform(form) {
     var checkfunData;
-    console.log(form.id);
+    //console.log(form.id);
     checkfunData += form.id + "!";
     for (i = 0; i < form.length; i++){
     	if(form.elements[i].type != "radio" && form.elements[i].type != null){
@@ -508,7 +509,7 @@ var drawMole = function(x, y, dead) {
         context2.clearRect(0, 0, canvas2.width, canvas2.height);
         context2.drawImage(livemole, x - 50, y - 50);  
         timestimsarrive.push(Date.now()); 
-        console.log("drewnewmole");
+        //console.log("drewnewmole");
     }
 };
 
