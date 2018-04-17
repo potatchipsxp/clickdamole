@@ -280,7 +280,7 @@ var available_stimLocations = function(lvl) {
         if(version == "whackamole"){
             drawMoleHill(x, y);   
         } else if(version == "boring"){
-            drawRect(x, y, label);
+            drawRect(x, y); //previosly had label as parameter if it breaks
         }
     }
     stimIndices = range(stimLocations.length);
