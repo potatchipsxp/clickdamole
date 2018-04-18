@@ -105,6 +105,7 @@ var mousecordsY = [];
 var leveltheyreon = [];
 var mouseCordsXClicks = [];
 var mouseCordsYClicks = [];
+var mouseClickTimes = [];
 
 function startStimTimer(x) {
     var timetimerstarted = Date.now();
@@ -292,7 +293,7 @@ var Stim = function(x, y, r) {
     this.r = r;
 };
 
-var drawRect = function(x, y, filltext) {
+var drawRect = function(x, y) {
 
     context.strokeRect(x, y, 100, 100);
     //context.fillText(filltext, x, y);
@@ -311,9 +312,6 @@ canvas4.addEventListener('click', function(e) {
     var clickedX = e.pageX - this.offsetLeft;
     var clickedY = e.pageY - this.offsetTop;
 
-	mouseCordsYClicks.push(clickedY);
-	mouseCordsXClicks.push(clickedX);
-
     if (stage == "intro") {
         if (clickedX < 400 && clickedX >= 300 && clickedY >= 600 && clickedY <= 700) {
             context3.clearRect(0, 0, canvas3.width, canvas3.height);
@@ -322,6 +320,11 @@ canvas4.addEventListener('click', function(e) {
             play(difficultylevel);
         }
     } else if (stage == "playing") {
+
+        mouseCordsYClicks.push(clickedY);
+        mouseCordsXClicks.push(clickedX);
+        mouseClickTimes.push(Date.now());
+
         if ((Math.abs(clickedX - stim.x) < stim.r) && (Math.abs(clickedY - stim.y) < stim.r) && (cantclickagain == false)) {
             cantclickagain = true;
             context2.clearRect(0, 0, canvas2.width, canvas2.height);
@@ -390,7 +393,7 @@ function advanceLevel() {
     //saveToFile(clickedStims);
     //console.log("savedstufftofile");
     var accuracyratio = stimsclickedthislevel/stimsshownthislevel;
-    saveToFile("leveldata!" + accuracyratio + "!" + mousecordsX + "!" + mousecordsY + "!" + timemousecords + "!" + timestimsarrive + "!" + difficultylevel + "!" + stimsclickedthislevel + "!" + stimsshownthislevel + "!" + mouseCordsYClicks + "!" + mouseCordsXClicks);
+    saveToFile("leveldata!" + accuracyratio + "!" + mousecordsX + "!" + mousecordsY + "!" + timemousecords + "!" + timestimsarrive + "!" + difficultylevel + "!" + stimsclickedthislevel + "!" + stimsshownthislevel + "!" + mouseCordsYClicks + "!" + mouseCordsXClicks + "!" + mouseClickTimes);
     //saveToFile(accuracyratio + "!" + mousecordsX + "!" + mousecordsY + "!" + timemousecords + "!" + timestimsarrive + "!" + difficultylevel + "!" + stimsclickedthislevel + "!" + stimsshownthislevel);
     context2.clearRect(0, 0, canvas3.width, canvas3.height);
     context.clearRect(0, 0, canvas3.width, canvas3.height);
@@ -406,6 +409,7 @@ function advanceLevel() {
     stimsclickedthislevel = 0;
     timemousecords = [];
     timestimsarrive = [];
+    mouseClickTimes = [];
     ++difficultylevel;
     if(difficultylevel>numberoflevels){
         gamecomplete = true;
