@@ -531,3 +531,21 @@ function makeid() {
 
   return text;
 }
+
+var setversion = function(){
+	if (Math.random()>.5) {
+	version = "whackamole"; // boring or whackamole
+
+	} else {
+		version = "boring";
+	}
+};
+
+var randtester = function(){
+	var heads = 0;
+	for (var i = 1000; i >= 0; i--) {
+		if (Math.random()>.5) {
+			heads += 1;
+		}	}
+	return heads;
+};
