@@ -76,6 +76,21 @@ var stimtimer;
 var clickedStims = 0;
 var difficultylevel = 3;
 var consent = false;
+var p_randomStimList;
+/*
+mkke the lists
+*/
+
+p_randomStimList3 = [0, 2, 1, 2, 0, 2, 1, 1, 1, 0, 2, 2, 1, 2, 2, 0, 1, 0, 1, 0, 0, 2, 0, 1, 2, 0, 2, 0, 1, 2, 2, 0, 0, 2, 1, 0, 2, 2, 1, 2, 2, 0, 1, 0, 2, 2, 2, 1, 0, 2, 0, 0, 1, 1, 2, 1, 2, 2, 0, 2, 2, 1, 2, 0, 0, 0, 2, 1, 2, 1, 0, 2, 2, 1, 2, 1, 1, 2, 2, 0, 0, 2, 2, 0, 2, 0, 0, 0, 2, 2, 1, 1, 1, 1, 2, 1, 2, 2, 1, 0, 1, 1, 0, 0, 2, 1, 0, 0, 1, 0, 1, 2, 0, 1, 0, 2, 0, 2, 1, 0, 2, 2, 2, 0, 1, 0, 0, 1, 2, 2, 0, 1, 2, 0, 1, 1, 0, 1, 2, 2, 0, 2, 2, 2, 0, 0, 1, 0, 1, 1, 0, 2, 2, 0, 0, 1, 0, 1, 2, 2, 1, 2, 0, 0, 2, 1, 1, 2, 2, 0, 1, 2, 1, 2, 1, 2, 0, 2, 0, 2];
+p_randomStimList4 = [0, 2, 2, 3, 1, 0, 0, 1, 0, 2, 3, 1, 3, 0, 3, 1, 0, 0, 2, 0, 2, 1, 2, 2, 2, 0, 3, 0, 2, 1, 2, 1, 2, 1, 1, 0, 2, 0, 0, 1, 1, 0, 2, 2, 3, 1, 1, 2, 0, 1, 3, 0, 1, 2, 3, 2, 1, 2, 2, 2, 2, 2, 3, 2, 2, 0, 1, 0, 2, 3, 0, 0, 1, 2, 0, 2, 0, 0, 0, 0, 2, 3, 3, 0, 2, 2, 1, 0, 3, 0, 1, 1, 1, 1, 3, 0, 1, 2, 1, 1, 2, 1, 1, 0, 2, 0, 0, 1, 2, 0, 3, 3, 1, 1, 0, 2, 2, 2, 0, 0, 0, 0, 1, 0, 1, 0, 2, 1, 2, 3, 3, 3, 1, 0, 1, 2, 2, 1, 0, 1, 2, 1, 3, 3, 3, 3, 1, 3, 0, 0, 2, 3, 1, 3, 1, 0, 2, 1, 1, 2, 2, 1, 3, 2, 1, 3, 1, 1, 1, 1, 0, 1, 1, 3, 1, 3, 1, 3, 1, 3];
+p_randomStimList5 = [0, 3, 0, 3, 0, 4, 0, 3, 2, 3, 1, 4, 4, 2, 1, 1, 3, 4, 1, 4, 4, 1, 2, 3, 1, 1, 0, 3, 1, 2, 0, 3, 1, 4, 4, 2, 0, 1, 2, 3, 0, 0, 4, 0, 0, 0, 0, 0, 3, 2, 1, 4, 4, 2, 3, 3, 3, 1, 1, 0, 1, 4, 4, 0, 0, 0, 4, 1, 2, 1, 0, 1, 2, 1, 3, 3, 1, 1, 0, 1, 3, 1, 4, 0, 1, 1, 0, 1, 3, 3, 2, 2, 2, 2, 4, 4, 1, 1, 2, 2, 3, 3, 0, 4, 3, 0, 1, 0, 0, 4, 1, 3, 0, 2, 3, 4, 1, 2, 3, 1, 1, 1, 3, 0, 0, 1, 1, 2, 2, 2, 1, 3, 0, 0, 3, 0, 4, 1, 3, 4, 1, 3, 4, 1, 1, 0, 1, 4, 2, 4, 2, 2, 4, 0, 1, 4, 4, 0, 3, 1, 4, 2, 3, 4, 2, 4, 2, 3, 3, 3, 4, 1, 3, 3, 1, 3, 0, 4, 2, 1];
+p_randomStimList6 = [0, 2, 2, 1, 5, 0, 0, 4, 1, 1, 0, 5, 1, 3, 5, 0, 3, 3, 4, 5, 2, 2, 1, 3, 2, 2, 5, 0, 5, 5, 1, 3, 5, 2, 2, 5, 5, 4, 2, 3, 3, 5, 3, 3, 4, 1, 0, 1, 4, 2, 1, 0, 2, 3, 0, 4, 1, 3, 0, 3, 1, 1, 3, 0, 3, 3, 0, 0, 1, 2, 4, 4, 0, 5, 1, 0, 5, 3, 2, 2, 1, 5, 0, 2, 0, 5, 3, 4, 0, 1, 4, 5, 0, 4, 3, 3, 5, 2, 4, 2, 5, 2, 2, 5, 1, 0, 0, 1, 0, 1, 5, 3, 0, 3, 3, 4, 3, 1, 5, 3, 0, 5, 1, 3, 0, 0, 4, 2, 2, 3, 4, 3, 1, 5, 2, 3, 0, 0, 4, 0, 5, 0, 5, 3, 4, 2, 2, 3, 0, 2, 5, 1, 2, 4, 4, 4, 1, 1, 2, 1, 2, 1, 3, 0, 5, 5, 1, 4, 1, 3, 5, 4, 1, 0, 3, 4, 4, 2, 3, 4];
+p_randomStimList7 = [4, 6, 6, 5, 5, 1, 5, 1, 4, 2, 3, 3, 0, 2, 6, 0, 5, 2, 6, 5, 5, 2, 0, 4, 6, 4, 1, 5, 1, 1, 1, 0, 4, 6, 6, 3, 4, 1, 4, 3, 1, 4, 5, 0, 6, 0, 3, 0, 5, 0, 6, 4, 6, 0, 5, 1, 1, 4, 4, 2, 6, 4, 3, 1, 2, 5, 6, 4, 2, 2, 3, 1, 5, 1, 1, 3, 3, 1, 5, 4, 4, 2, 5, 2, 5, 2, 5, 4, 3, 5, 2, 5, 1, 5, 5, 4, 6, 4, 5, 1, 5, 2, 4, 3, 0, 0, 0, 0, 2, 2, 1, 4, 4, 5, 1, 3, 1, 3, 2, 0, 6, 3, 2, 5, 4, 5, 0, 4, 6, 2, 4, 3, 0, 6, 2, 4, 0, 2, 6, 3, 2, 2, 5, 5, 0, 3, 3, 5, 0, 0, 3, 3, 2, 3, 1, 6, 4, 6, 0, 6, 4, 5, 6, 3, 2, 3, 5, 6, 4, 5, 5, 5, 4, 0, 2, 1, 2, 0, 6, 1];
+p_randomStimList8 = [5, 6, 3, 7, 2, 2, 1, 2, 3, 5, 1, 4, 0, 7, 7, 5, 5, 7, 7, 7, 0, 6, 7, 5, 0, 7, 0, 1, 0, 3, 3, 7, 5, 2, 7, 6, 1, 6, 1, 5, 4, 1, 3, 1, 4, 1, 5, 1, 4, 3, 0, 3, 3, 7, 6, 4, 0, 1, 0, 2, 1, 4, 4, 3, 5, 0, 3, 0, 1, 3, 7, 4, 4, 5, 4, 6, 0, 5, 4, 1, 6, 5, 0, 6, 7, 4, 7, 6, 2, 4, 5, 2, 1, 2, 6, 2, 3, 3, 4, 0, 1, 5, 6, 0, 1, 3, 6, 0, 1, 3, 5, 7, 2, 1, 7, 7, 2, 2, 2, 7, 0, 0, 1, 6, 3, 4, 1, 1, 7, 1, 7, 2, 3, 1, 7, 1, 7, 5, 6, 4, 6, 4, 4, 4, 0, 5, 2, 3, 6, 3, 1, 7, 7, 4, 5, 6, 7, 5, 0, 3, 1, 7, 3, 6, 6, 0, 2, 4, 4, 2, 5, 5, 5, 5, 5, 7, 2, 5, 0, 1];
+p_randomStimList9 = [2, 3, 0, 3, 2, 3, 5, 3, 8, 1, 1, 3, 1, 1, 0, 8, 7, 7, 3, 2, 8, 2, 4, 8, 7, 8, 5, 5, 0, 6, 8, 1, 5, 5, 6, 8, 3, 5, 7, 3, 6, 6, 8, 2, 5, 3, 0, 4, 2, 8, 7, 0, 5, 8, 1, 5, 4, 0, 0, 5, 6, 7, 3, 5, 1, 8, 0, 0, 8, 2, 5, 1, 1, 7, 1, 3, 4, 1, 2, 4, 1, 0, 5, 7, 8, 7, 7, 8, 1, 8, 1, 2, 5, 1, 5, 5, 2, 8, 1, 6, 8, 3, 7, 1, 6, 7, 6, 8, 4, 5, 6, 5, 0, 6, 3, 1, 4, 0, 1, 7, 1, 1, 4, 6, 3, 2, 5, 8, 3, 3, 6, 2, 5, 2, 0, 5, 7, 0, 1, 7, 5, 1, 1, 3, 3, 5, 7, 2, 3, 8, 2, 2, 4, 6, 7, 6, 2, 4, 6, 7, 0, 5, 6, 1, 6, 4, 6, 7, 2, 2, 5, 5, 2, 2, 7, 4, 5, 3, 7, 8];
+p_randomStimList10 = [3, 8, 1, 9, 7, 5, 0, 6, 5, 9, 5, 4, 5, 3, 1, 3, 4, 4, 4, 6, 5, 0, 7, 3, 0, 2, 5, 3, 3, 6, 9, 5, 0, 9, 2, 1, 1, 8, 4, 5, 7, 8, 2, 6, 5, 3, 9, 1, 7, 3, 9, 2, 7, 4, 5, 4, 6, 0, 2, 9, 7, 0, 7, 0, 5, 5, 6, 3, 6, 9, 3, 8, 9, 9, 1, 7, 1, 9, 0, 0, 3, 7, 2, 4, 0, 1, 7, 6, 5, 4, 4, 5, 0, 0, 8, 8, 0, 2, 4, 4, 6, 9, 8, 0, 1, 6, 2, 2, 0, 8, 9, 0, 8, 2, 8, 6, 9, 8, 4, 5, 2, 5, 5, 0, 8, 0, 0, 1, 3, 9, 3, 6, 5, 6, 3, 4, 5, 7, 3, 4, 9, 5, 5, 6, 5, 6, 1, 4, 7, 1, 6, 8, 7, 0, 6, 1, 7, 0, 0, 7, 6, 8, 2, 2, 8, 5, 1, 3, 9, 7, 6, 4, 9, 1, 4, 4, 3, 6, 7, 3];
+
+
 
 
 
@@ -85,7 +100,7 @@ var n_back = 2;
 var nextstimtime = 650;
 var clickedstimnextstim = 500;
 var numberoflevels = 10; //10
-var numberofhitsneeded = 20; //20
+var numberofhitsneeded = 60; //20
 var stimsclickedthislevel = 0;
 
 
@@ -94,7 +109,7 @@ var stimsclickedthislevel = 0;
 
 var timetimerstarted;
 var levelStartTime;
-var leveltimelimit = 60000; //60000
+var leveltimelimit = 180000; //60000
 var cantclickagain = false;
 var numberofstimsshown = 0;
 var stimsshownthislevel = 0;
@@ -149,6 +164,20 @@ function Rand_placeStim(){
 
 }
 
+function listPlaceStim(){
+    if(p_randomStimList.length < 3) {
+        advanceLevel();
+    }else{
+        if(version == "whackamole"){
+            stim = new Stim(stimLocations[p_randomStimList[0]].left + 50, stimLocations[p_randomStimList[0]].top + 50, 50);
+            drawMole(stimLocations[p_randomStimList[0]].left + 50, stimLocations[p_randomStimList[0]].top + 50);
+            p_randomStimList.shift();   
+        } else if(version == "boring"){
+            drawCircle(stimLocations[i].left + 50, stimLocations[i].top + 50);
+        }
+    }
+}
+
 var placeStim = function() {
 
 	if (Date.now() > levelStartTime + leveltimelimit) {
@@ -158,7 +187,8 @@ var placeStim = function() {
     ++numberofstimsshown;
     ++stimsshownthislevel;
     cantclickagain = false;
-    Rand_placeStim();
+    //Rand_placeStim();
+    listPlaceStim()
 	startStimTimer(nextstimtime);	
 }
 
@@ -187,6 +217,9 @@ var introduction = function() {
     Qform.style.display='none';
     demogForm.style.display='none';
     gameover_text.style.display='none';
+    //set for list version
+    p_randomStimList = p_randomStimList3;
+    //
     if(version=="boring"){
         whackamole_inst.style.display='none';
     } else if (version == "whackamole") {
@@ -411,8 +444,28 @@ function advanceLevel() {
     timestimsarrive = [];
     mouseClickTimes = [];
     ++difficultylevel;
+    ++difficultylevel;
     if(difficultylevel>numberoflevels){
         gamecomplete = true;
+    }
+    if (difficultylevel == 3) {
+        p_randomStimList = p_randomStimList3
+    } else if (difficultylevel == 4) {
+        p_randomStimList = p_randomStimList4
+    } else if (difficultylevel == 3) {
+        p_randomStimList = p_randomStimList5
+    } else if (difficultylevel == 5) {
+        p_randomStimList = p_randomStimList5
+    } else if (difficultylevel == 6) {
+        p_randomStimList = p_randomStimList6
+    } else if (difficultylevel == 7) {
+        p_randomStimList = p_randomStimList7
+    } else if (difficultylevel == 8) {
+        p_randomStimList = p_randomStimList8
+    } else if (difficultylevel == 9) {
+        p_randomStimList = p_randomStimList9
+    } else if (difficultylevel == 10) {
+        p_randomStimList = p_randomStimList10
     }
     checkfun();    
 }
@@ -537,12 +590,16 @@ function makeid() {
 }
 
 var setversion = function(){
-	if (Math.random()>.5) {
-	version = "whackamole"; // boring or whackamole
+	/*
+    if (Math.random()>.5) {
+	   version = "whackamole"; // boring or whackamole
 
 	} else {
 		version = "boring";
 	}
+    */
+    //always whackamole now
+    version = "whackamole";
 };
 
 var randtester = function(){
