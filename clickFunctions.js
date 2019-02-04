@@ -1,4 +1,18 @@
 /*
+ToDo
+create a way of varying mouse speed
+
+*/
+
+
+
+
+
+
+
+
+
+/*
 Everytime the player advances a level the difficulty variable increases. 
 when that happens one more box will appear on screen and the length of the used circles array will increase by one
 this essentially increases the number of places that circle will cycle through.
@@ -62,25 +76,34 @@ var playing;
 
 //var fname = "mydata.txt"
 
-//game variables
+//game exectution variables
+var neednewtimer = true;
+var gamecomplete = false;
+var showdemogform = true;
+var clickedStims = 0;
+var consent = false;
+var p_randomStimList;
+var numberoflevelscompleted = 0;
+var maximumlevels = 8;
+
+//game setting
 
 var stim;
 var stage;
-var neednewtimer = true;
 var version;
-var gamecomplete = false;
-var showdemogform = true;
 var length = 100;
 var width = 100;
 var stimtimer;
-var clickedStims = 0;
 var difficultylevel = 3;
-var consent = false;
-var p_randomStimList;
-/*
-mkke the lists
-*/
+var typestimpattern = "list";
+var typelevelselection = "everyother"; // everyother random incremental
+var mousespeedselection = "consistent"; // consistent incremental random
 
+
+//preloadedvariables
+mousespeeds = [300, 400, 500, 600, 700, 800]; // could make these increments smaller should think more about it.
+
+//list of mouse stim locations
 p_randomStimList3 = [0, 2, 1, 2, 0, 2, 1, 1, 1, 0, 2, 2, 1, 2, 2, 0, 1, 0, 1, 0, 0, 2, 0, 1, 2, 0, 2, 0, 1, 2, 2, 0, 0, 2, 1, 0, 2, 2, 1, 2, 2, 0, 1, 0, 2, 2, 2, 1, 0, 2, 0, 0, 1, 1, 2, 1, 2, 2, 0, 2, 2, 1, 2, 0, 0, 0, 2, 1, 2, 1, 0, 2, 2, 1, 2, 1, 1, 2, 2, 0, 0, 2, 2, 0, 2, 0, 0, 0, 2, 2, 1, 1, 1, 1, 2, 1, 2, 2, 1, 0, 1, 1, 0, 0, 2, 1, 0, 0, 1, 0, 1, 2, 0, 1, 0, 2, 0, 2, 1, 0, 2, 2, 2, 0, 1, 0, 0, 1, 2, 2, 0, 1, 2, 0, 1, 1, 0, 1, 2, 2, 0, 2, 2, 2, 0, 0, 1, 0, 1, 1, 0, 2, 2, 0, 0, 1, 0, 1, 2, 2, 1, 2, 0, 0, 2, 1, 1, 2, 2, 0, 1, 2, 1, 2, 1, 2, 0, 2, 0, 2];
 p_randomStimList4 = [0, 2, 2, 3, 1, 0, 0, 1, 0, 2, 3, 1, 3, 0, 3, 1, 0, 0, 2, 0, 2, 1, 2, 2, 2, 0, 3, 0, 2, 1, 2, 1, 2, 1, 1, 0, 2, 0, 0, 1, 1, 0, 2, 2, 3, 1, 1, 2, 0, 1, 3, 0, 1, 2, 3, 2, 1, 2, 2, 2, 2, 2, 3, 2, 2, 0, 1, 0, 2, 3, 0, 0, 1, 2, 0, 2, 0, 0, 0, 0, 2, 3, 3, 0, 2, 2, 1, 0, 3, 0, 1, 1, 1, 1, 3, 0, 1, 2, 1, 1, 2, 1, 1, 0, 2, 0, 0, 1, 2, 0, 3, 3, 1, 1, 0, 2, 2, 2, 0, 0, 0, 0, 1, 0, 1, 0, 2, 1, 2, 3, 3, 3, 1, 0, 1, 2, 2, 1, 0, 1, 2, 1, 3, 3, 3, 3, 1, 3, 0, 0, 2, 3, 1, 3, 1, 0, 2, 1, 1, 2, 2, 1, 3, 2, 1, 3, 1, 1, 1, 1, 0, 1, 1, 3, 1, 3, 1, 3, 1, 3];
 p_randomStimList5 = [0, 3, 0, 3, 0, 4, 0, 3, 2, 3, 1, 4, 4, 2, 1, 1, 3, 4, 1, 4, 4, 1, 2, 3, 1, 1, 0, 3, 1, 2, 0, 3, 1, 4, 4, 2, 0, 1, 2, 3, 0, 0, 4, 0, 0, 0, 0, 0, 3, 2, 1, 4, 4, 2, 3, 3, 3, 1, 1, 0, 1, 4, 4, 0, 0, 0, 4, 1, 2, 1, 0, 1, 2, 1, 3, 3, 1, 1, 0, 1, 3, 1, 4, 0, 1, 1, 0, 1, 3, 3, 2, 2, 2, 2, 4, 4, 1, 1, 2, 2, 3, 3, 0, 4, 3, 0, 1, 0, 0, 4, 1, 3, 0, 2, 3, 4, 1, 2, 3, 1, 1, 1, 3, 0, 0, 1, 1, 2, 2, 2, 1, 3, 0, 0, 3, 0, 4, 1, 3, 4, 1, 3, 4, 1, 1, 0, 1, 4, 2, 4, 2, 2, 4, 0, 1, 4, 4, 0, 3, 1, 4, 2, 3, 4, 2, 4, 2, 3, 3, 3, 4, 1, 3, 3, 1, 3, 0, 4, 2, 1];
@@ -89,9 +112,6 @@ p_randomStimList7 = [4, 6, 6, 5, 5, 1, 5, 1, 4, 2, 3, 3, 0, 2, 6, 0, 5, 2, 6, 5,
 p_randomStimList8 = [5, 6, 3, 7, 2, 2, 1, 2, 3, 5, 1, 4, 0, 7, 7, 5, 5, 7, 7, 7, 0, 6, 7, 5, 0, 7, 0, 1, 0, 3, 3, 7, 5, 2, 7, 6, 1, 6, 1, 5, 4, 1, 3, 1, 4, 1, 5, 1, 4, 3, 0, 3, 3, 7, 6, 4, 0, 1, 0, 2, 1, 4, 4, 3, 5, 0, 3, 0, 1, 3, 7, 4, 4, 5, 4, 6, 0, 5, 4, 1, 6, 5, 0, 6, 7, 4, 7, 6, 2, 4, 5, 2, 1, 2, 6, 2, 3, 3, 4, 0, 1, 5, 6, 0, 1, 3, 6, 0, 1, 3, 5, 7, 2, 1, 7, 7, 2, 2, 2, 7, 0, 0, 1, 6, 3, 4, 1, 1, 7, 1, 7, 2, 3, 1, 7, 1, 7, 5, 6, 4, 6, 4, 4, 4, 0, 5, 2, 3, 6, 3, 1, 7, 7, 4, 5, 6, 7, 5, 0, 3, 1, 7, 3, 6, 6, 0, 2, 4, 4, 2, 5, 5, 5, 5, 5, 7, 2, 5, 0, 1];
 p_randomStimList9 = [2, 3, 0, 3, 2, 3, 5, 3, 8, 1, 1, 3, 1, 1, 0, 8, 7, 7, 3, 2, 8, 2, 4, 8, 7, 8, 5, 5, 0, 6, 8, 1, 5, 5, 6, 8, 3, 5, 7, 3, 6, 6, 8, 2, 5, 3, 0, 4, 2, 8, 7, 0, 5, 8, 1, 5, 4, 0, 0, 5, 6, 7, 3, 5, 1, 8, 0, 0, 8, 2, 5, 1, 1, 7, 1, 3, 4, 1, 2, 4, 1, 0, 5, 7, 8, 7, 7, 8, 1, 8, 1, 2, 5, 1, 5, 5, 2, 8, 1, 6, 8, 3, 7, 1, 6, 7, 6, 8, 4, 5, 6, 5, 0, 6, 3, 1, 4, 0, 1, 7, 1, 1, 4, 6, 3, 2, 5, 8, 3, 3, 6, 2, 5, 2, 0, 5, 7, 0, 1, 7, 5, 1, 1, 3, 3, 5, 7, 2, 3, 8, 2, 2, 4, 6, 7, 6, 2, 4, 6, 7, 0, 5, 6, 1, 6, 4, 6, 7, 2, 2, 5, 5, 2, 2, 7, 4, 5, 3, 7, 8];
 p_randomStimList10 = [3, 8, 1, 9, 7, 5, 0, 6, 5, 9, 5, 4, 5, 3, 1, 3, 4, 4, 4, 6, 5, 0, 7, 3, 0, 2, 5, 3, 3, 6, 9, 5, 0, 9, 2, 1, 1, 8, 4, 5, 7, 8, 2, 6, 5, 3, 9, 1, 7, 3, 9, 2, 7, 4, 5, 4, 6, 0, 2, 9, 7, 0, 7, 0, 5, 5, 6, 3, 6, 9, 3, 8, 9, 9, 1, 7, 1, 9, 0, 0, 3, 7, 2, 4, 0, 1, 7, 6, 5, 4, 4, 5, 0, 0, 8, 8, 0, 2, 4, 4, 6, 9, 8, 0, 1, 6, 2, 2, 0, 8, 9, 0, 8, 2, 8, 6, 9, 8, 4, 5, 2, 5, 5, 0, 8, 0, 0, 1, 3, 9, 3, 6, 5, 6, 3, 4, 5, 7, 3, 4, 9, 5, 5, 6, 5, 6, 1, 4, 7, 1, 6, 8, 7, 0, 6, 1, 7, 0, 0, 7, 6, 8, 2, 2, 8, 5, 1, 3, 9, 7, 6, 4, 9, 1, 4, 4, 3, 6, 7, 3];
-
-
-
 
 
 //task parameters
@@ -105,7 +125,6 @@ var stimsclickedthislevel = 0;
 
 
 //experiment variables
-
 
 var timetimerstarted;
 var levelStartTime;
@@ -121,6 +140,8 @@ var leveltheyreon = [];
 var mouseCordsXClicks = [];
 var mouseCordsYClicks = [];
 var mouseClickTimes = [];
+
+//
 
 function startStimTimer(x) {
     var timetimerstarted = Date.now();
@@ -187,8 +208,11 @@ var placeStim = function() {
     ++numberofstimsshown;
     ++stimsshownthislevel;
     cantclickagain = false;
-    //Rand_placeStim();
-    listPlaceStim()
+    if(typestimpattern == "list"){
+    	listPlaceStim();
+    } else if (typestimpattern == "random"){
+    	Rand_placeStim();
+    }
 	startStimTimer(nextstimtime);	
 }
 
@@ -443,11 +467,21 @@ function advanceLevel() {
     timemousecords = [];
     timestimsarrive = [];
     mouseClickTimes = [];
-    ++difficultylevel;
-    ++difficultylevel;
+    if(typelevelselection == "incremental"){
+    	++difficultylevel;
+    } else if (typelevelselection == "everyother"){
+    	++difficultylevel;
+    	++difficultylevel;
+    } else if(typelevelselection == "random"){
+
+    }
     if(difficultylevel>numberoflevels){
         gamecomplete = true;
+    }else if(numberoflevelscompleted == maximumlevels){
+    	gamecomplete = true;
     }
+    //sets the random list to be an appropriate one
+
     if (difficultylevel == 3) {
         p_randomStimList = p_randomStimList3
     } else if (difficultylevel == 4) {
@@ -467,6 +501,7 @@ function advanceLevel() {
     } else if (difficultylevel == 10) {
         p_randomStimList = p_randomStimList10
     }
+
     checkfun();    
 }
 
