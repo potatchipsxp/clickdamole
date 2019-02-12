@@ -1,7 +1,7 @@
 /*
 ToDo
 create a way of varying mouse speed
-
+max levels and number of levels, redundant?
 */
 
 
@@ -84,18 +84,19 @@ var clickedStims = 0;
 var consent = false;
 var p_randomStimList;
 var numberoflevelscompleted = 0;
-var maximumlevels = 8;
+var maximumlevels = 1; //was 8
+var maximumdifficultylevel = 15;
 
 //game setting
 
 var stim;
 var stage;
 var version;
-var length = 100;
-var width = 100;
+var length = 100; //normally 100
+var width = 100; //normally 100
 var stimtimer;
-var difficultylevel = 3;
-var typestimpattern = "list";
+var difficultylevel = Math.floor(Math.random()*12 + 3); //normally 3
+var typestimpattern = "random";
 var typelevelselection = "everyother"; // everyother random incremental
 var mousespeedselection = "consistent"; // consistent incremental random
 
@@ -119,7 +120,7 @@ p_randomStimList10 = [3, 8, 1, 9, 7, 5, 0, 6, 5, 9, 5, 4, 5, 3, 1, 3, 4, 4, 4, 6
 var n_back = 2;
 var nextstimtime = 650;
 var clickedstimnextstim = 500;
-var numberoflevels = 10; //10
+var numberoflevels = 15; //10
 var numberofhitsneeded = 60; //20
 var stimsclickedthislevel = 0;
 
@@ -317,23 +318,32 @@ var thatsgame = function() {
 };
 
 var available_stimLocations = function(lvl) {
-	//console.log(lvl);
+	//console.log(lvl); 
+	loopbreaker = 0;
     for (j = 0; j < lvl; j++) {
         //i = j * 700;
         angle = 15 * j;
-        a = 75;
+        a = 60;
         //b = 2.7;
-        b = 1.9;
+        b = 1.5;
         r = a + (b * angle);
         x = r * Math.cos(angle);
-        x = Math.round(x) + 400;
+        x = Math.round(x) + 400; // + 400
         y = r * Math.sin(angle);
-        y = Math.round(y) + 400;
+        y = Math.round(y) + 300; // + 400
         //h++;
         //label = h.toString();
         //drawRect(x, y, "Box" + label);
         var stimLocation = new StimLocation(x, y, length, width);
-        stimLocations.push(stimLocation);
+        if((x<750) && (x>0) && (y>0) && (y<750)){
+        	stimLocations.push(stimLocation);
+        } else{
+        	--j
+        	++loopbreaker;
+        }
+        if(loopbreaker>25){
+        	break;
+        }
 
         if(version == "whackamole"){
             drawMoleHill(x, y);   
@@ -342,6 +352,7 @@ var available_stimLocations = function(lvl) {
         }
     }
     stimIndices = range(stimLocations.length);
+    console.log(stimLocations.length);
 };
 
 var Stim = function(x, y, r) {
@@ -440,6 +451,7 @@ function advanceLevel() {
 }
 */
 function advanceLevel() {
+	++numberoflevelscompleted;
     myStopFunction();
     //console.log("advancinglevel");
     //saveToFile(mousecordsX);
@@ -475,7 +487,7 @@ function advanceLevel() {
     } else if(typelevelselection == "random"){
 
     }
-    if(difficultylevel>numberoflevels){
+    if(difficultylevel>maximumdifficultylevel){
         gamecomplete = true;
     }else if(numberoflevelscompleted == maximumlevels){
     	gamecomplete = true;
@@ -501,7 +513,6 @@ function advanceLevel() {
     } else if (difficultylevel == 10) {
         p_randomStimList = p_randomStimList10
     }
-
     checkfun();    
 }
 
