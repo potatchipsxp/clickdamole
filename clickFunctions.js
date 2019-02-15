@@ -95,16 +95,17 @@ var version;
 var length = 100; //normally 100
 var width = 100; //normally 100
 var stimtimer;
-var difficultylevel = Math.floor(Math.random()*12 + 3); //normally 3
-var typestimpattern = "random";
+var difficultylevel = 8;// Math.floor(Math.random()*12 + 3) normally 3
+var typestimpattern = "list";
 var typelevelselection = "everyother"; // everyother random incremental
-var mousespeedselection = "consistent"; // consistent incremental random
+var molespeedselection = "random"; // consistent incremental random
 
 
 //preloadedvariables
-mousespeeds = [300, 400, 500, 600, 700, 800]; // could make these increments smaller should think more about it.
+molespeeds = [50, 100, 200, 300, 400, 600, 700, 800, 1000, 1500, 2000, 5000]; // could make these increments smaller should think more about it.
 
 //list of mouse stim locations
+//this is set intially during introduction
 p_randomStimList3 = [0, 2, 1, 2, 0, 2, 1, 1, 1, 0, 2, 2, 1, 2, 2, 0, 1, 0, 1, 0, 0, 2, 0, 1, 2, 0, 2, 0, 1, 2, 2, 0, 0, 2, 1, 0, 2, 2, 1, 2, 2, 0, 1, 0, 2, 2, 2, 1, 0, 2, 0, 0, 1, 1, 2, 1, 2, 2, 0, 2, 2, 1, 2, 0, 0, 0, 2, 1, 2, 1, 0, 2, 2, 1, 2, 1, 1, 2, 2, 0, 0, 2, 2, 0, 2, 0, 0, 0, 2, 2, 1, 1, 1, 1, 2, 1, 2, 2, 1, 0, 1, 1, 0, 0, 2, 1, 0, 0, 1, 0, 1, 2, 0, 1, 0, 2, 0, 2, 1, 0, 2, 2, 2, 0, 1, 0, 0, 1, 2, 2, 0, 1, 2, 0, 1, 1, 0, 1, 2, 2, 0, 2, 2, 2, 0, 0, 1, 0, 1, 1, 0, 2, 2, 0, 0, 1, 0, 1, 2, 2, 1, 2, 0, 0, 2, 1, 1, 2, 2, 0, 1, 2, 1, 2, 1, 2, 0, 2, 0, 2];
 p_randomStimList4 = [0, 2, 2, 3, 1, 0, 0, 1, 0, 2, 3, 1, 3, 0, 3, 1, 0, 0, 2, 0, 2, 1, 2, 2, 2, 0, 3, 0, 2, 1, 2, 1, 2, 1, 1, 0, 2, 0, 0, 1, 1, 0, 2, 2, 3, 1, 1, 2, 0, 1, 3, 0, 1, 2, 3, 2, 1, 2, 2, 2, 2, 2, 3, 2, 2, 0, 1, 0, 2, 3, 0, 0, 1, 2, 0, 2, 0, 0, 0, 0, 2, 3, 3, 0, 2, 2, 1, 0, 3, 0, 1, 1, 1, 1, 3, 0, 1, 2, 1, 1, 2, 1, 1, 0, 2, 0, 0, 1, 2, 0, 3, 3, 1, 1, 0, 2, 2, 2, 0, 0, 0, 0, 1, 0, 1, 0, 2, 1, 2, 3, 3, 3, 1, 0, 1, 2, 2, 1, 0, 1, 2, 1, 3, 3, 3, 3, 1, 3, 0, 0, 2, 3, 1, 3, 1, 0, 2, 1, 1, 2, 2, 1, 3, 2, 1, 3, 1, 1, 1, 1, 0, 1, 1, 3, 1, 3, 1, 3, 1, 3];
 p_randomStimList5 = [0, 3, 0, 3, 0, 4, 0, 3, 2, 3, 1, 4, 4, 2, 1, 1, 3, 4, 1, 4, 4, 1, 2, 3, 1, 1, 0, 3, 1, 2, 0, 3, 1, 4, 4, 2, 0, 1, 2, 3, 0, 0, 4, 0, 0, 0, 0, 0, 3, 2, 1, 4, 4, 2, 3, 3, 3, 1, 1, 0, 1, 4, 4, 0, 0, 0, 4, 1, 2, 1, 0, 1, 2, 1, 3, 3, 1, 1, 0, 1, 3, 1, 4, 0, 1, 1, 0, 1, 3, 3, 2, 2, 2, 2, 4, 4, 1, 1, 2, 2, 3, 3, 0, 4, 3, 0, 1, 0, 0, 4, 1, 3, 0, 2, 3, 4, 1, 2, 3, 1, 1, 1, 3, 0, 0, 1, 1, 2, 2, 2, 1, 3, 0, 0, 3, 0, 4, 1, 3, 4, 1, 3, 4, 1, 1, 0, 1, 4, 2, 4, 2, 2, 4, 0, 1, 4, 4, 0, 3, 1, 4, 2, 3, 4, 2, 4, 2, 3, 3, 3, 4, 1, 3, 3, 1, 3, 0, 4, 2, 1];
@@ -175,6 +176,7 @@ function Nback_placeStim() {
 }
 
 function Rand_placeStim(){
+	console.log(stimLocations.length);
     var i = getRandomInt(0,stimLocations.length);
     stim = new Stim(stimLocations[i].left + 50, stimLocations[i].top + 50, 50);
     if(version == "whackamole"){
@@ -182,8 +184,6 @@ function Rand_placeStim(){
     } else if(version == "boring"){
         drawCircle(stimLocations[i].left + 50, stimLocations[i].top + 50);
     }
-    
-
 }
 
 function listPlaceStim(){
@@ -243,7 +243,7 @@ var introduction = function() {
     demogForm.style.display='none';
     gameover_text.style.display='none';
     //set for list version
-    p_randomStimList = p_randomStimList3;
+    p_randomStimList = p_randomStimList8;
     //
     if(version=="boring"){
         whackamole_inst.style.display='none';
@@ -283,6 +283,10 @@ var play = function(lvl) {
 
         $("body").css("background-image", "url(images/grassbackground.jpg)");
 
+    }
+    if(molespeedselection == "random"){
+    	nextstimtime = molespeeds[Math.floor(Math.random()*molespeeds.length)];
+    	console.log(nextstimtime);
     }
 	
     Qform.style.display='none';
